@@ -2,6 +2,7 @@ package com.booksphillic.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class PostImage {
 
     @Id @GeneratedValue

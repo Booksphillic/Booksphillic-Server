@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +18,7 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role_type", nullable = false)
     private UserRoleType roleType;
 
@@ -36,9 +34,11 @@ public class User {
     @Column(name = "phone_number", length = 11)
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "provider_type", length = 10, nullable = false)
     private ProviderType providerType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
     private UserStatus userStatus;
 

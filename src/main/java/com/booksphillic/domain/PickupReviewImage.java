@@ -12,22 +12,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Comment extends BaseEntity {
+public class PickupReviewImage {
 
     @Id @GeneratedValue
-    @Column(name = "comment_id")
+    @Column(name = "pickup_reivew_image_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "pickup_review_id", nullable = false)
+    private PickupReview pickupReview;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @Lob
     @Column(nullable = false)
-    private String content;
-
+    private String url;
 }

@@ -12,24 +12,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Post extends BaseEntity {
+public class PickupReview {
 
     @Id @GeneratedValue
-    @Column(name = "post_id")
+    @Column(name = "pickup_review_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Bookstore store;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "editor_id")
-    private Editor editor;
-
-    @Column(nullable = false, length = 100)
-    private String title;
+    @JoinColumn(name = "pickup_id", nullable = false)
+    private Pickup pickup;
 
     @Lob
+    @Column(nullable = false)
     private String content;
-
 }
