@@ -28,8 +28,6 @@ public class Bookstore {
     @Column(name = "profile_img", length= 100, nullable = false)
     private String profileImgUrl;
 
-    // 내부 이미지?
-
     @Embedded
     private OperatingHours hours;
 

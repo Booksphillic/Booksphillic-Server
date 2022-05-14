@@ -32,7 +32,7 @@ public enum BookGenre {
     DOROK("도록", "DOROK"),
     HOBBY("취미", "HOBBY"),
     COOKING("요리", "COOKING"),
-    CHILDREN("아동", "CHILDREN")
+    CHILDREN("아동", "CHILDREN");
 
 
     private String ko;
