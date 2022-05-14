@@ -18,11 +18,7 @@ public class PostTag {
     @Column(name = "post_tag_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    private Long tagId;
 }

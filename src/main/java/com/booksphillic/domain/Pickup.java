@@ -19,13 +19,9 @@ public class Pickup extends BaseEntity{
     @Column(name = "pickup_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
-    private Bookstore bookstore;
+    private Long storeId;
 
     @Column(name="pickup_date", nullable = false)
     private LocalDateTime pickupDate;

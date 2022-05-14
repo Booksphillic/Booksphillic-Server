@@ -18,9 +18,7 @@ public class BookstoreImage {
     @Column(name = "store_image_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
-    private Bookstore bookstore;
+    private Long bookstoreId;
 
     private String url;
 }

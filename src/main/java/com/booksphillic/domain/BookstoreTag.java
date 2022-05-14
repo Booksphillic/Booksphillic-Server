@@ -18,12 +18,8 @@ public class BookstoreTag {
     @Column(name = "bookstore_tag_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "store_id")
-    private Bookstore store;
+    private Long storeId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    private Long tagId;
 
 }

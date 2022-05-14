@@ -18,9 +18,7 @@ public class Bookstore {
     @Column(name = "store_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @Column(nullable = false, length = 100)
     private String name;

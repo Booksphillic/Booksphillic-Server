@@ -18,13 +18,9 @@ public class Post extends BaseEntity {
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Bookstore store;
+    private Long storeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "editor_id")
-    private Editor editor;
+    private Long editorId;
 
     @Column(nullable = false, length = 100)
     private String title;

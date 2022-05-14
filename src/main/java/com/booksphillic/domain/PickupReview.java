@@ -18,13 +18,9 @@ public class PickupReview {
     @Column(name = "pickup_review_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pickup_id", nullable = false)
-    private Pickup pickup;
+    private Long pickupId;
 
     @Lob
     @Column(nullable = false)
