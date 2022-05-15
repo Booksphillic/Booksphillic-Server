@@ -1,4 +1,4 @@
-package com.booksphillic.domain;
+package com.booksphillic.domain.board.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,18 +12,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Comment extends BaseEntity {
+public class PostImage {
 
     @Id @GeneratedValue
-    @Column(name = "comment_id")
+    @Column(name = "post_image_id")
     private Long id;
-
-    private Long userId;
 
     private Long postId;
 
-    @Lob
     @Column(nullable = false)
-    private String content;
-
+    private String url;
 }

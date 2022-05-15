@@ -1,5 +1,6 @@
-package com.booksphillic.domain;
+package com.booksphillic.domain.board.model;
 
+import com.booksphillic.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
