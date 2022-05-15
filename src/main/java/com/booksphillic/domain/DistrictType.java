@@ -1,5 +1,8 @@
 package com.booksphillic.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum DistrictType {
 
     GANGNAM("강남구", "GANGNAM"),
