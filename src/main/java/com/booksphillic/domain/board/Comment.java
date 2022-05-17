@@ -1,6 +1,7 @@
 package com.booksphillic.domain.board;
 
 import com.booksphillic.domain.BaseEntity;
+import com.booksphillic.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,9 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private Long postId;
 

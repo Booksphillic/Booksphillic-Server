@@ -20,6 +20,8 @@ public class BookstoreTag {
 
     private Long storeId;
 
-    private Long tagId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 
 }

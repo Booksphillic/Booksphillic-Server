@@ -27,5 +27,7 @@ public class Editor {
     @Column(nullable = false, length = 100)
     private String description;
 
+    @Column(name = "profile_img")
+    private String profileImgUrl;
 
 }

@@ -1,21 +1,24 @@
 package com.booksphillic.service.board;
 
-import com.booksphillic.domain.bookstore.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
+@Builder
 public class GetPostRes {
 
     private Long postId;
-    private Long storeId;
     private String editorName;
+    private String editorImage;
+    private LocalDateTime createdAt;
     private String title;
     private String content;
-    private List<Tag> tagList;
+    private List<String> tagList;
+    private BookstoreInfo bookstore;
 }

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface PostJpaRepository extends JpaRepository<Post, Long> {
 
-    public Optional<Post> findById(Long postId);
+    Optional<Post> findById(Long postId);
 
 }
