@@ -3,11 +3,9 @@ package com.booksphillic.service.board;
 import com.booksphillic.domain.board.Comment;
 import com.booksphillic.domain.board.Editor;
 import com.booksphillic.domain.board.Post;
+import com.booksphillic.domain.board.PostImage;
 import com.booksphillic.domain.bookstore.Bookstore;
-import com.booksphillic.repository.BookstoreTagRepository;
-import com.booksphillic.repository.PostJpaRepository;
-import com.booksphillic.repository.CommentRepository;
-import com.booksphillic.repository.PostRepository;
+import com.booksphillic.repository.*;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.board.dto.BookstoreInfo;
@@ -33,6 +31,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostJpaRepository postJpaRepository;
     private final BookstoreTagRepository bookstoreTagRepository;
+    private final PostImageRepository postImageRepository;
 
     // 우리동네, 다른동네 글 리스트 조회
     public List<GetPostsRes> getDistrictPosts(int page, int size, boolean include, String district) throws BaseException {
@@ -89,6 +88,9 @@ public class PostService {
             List<String> tags = bookstoreTagRepository.findByStoreId(bookstore.getId())
                     .stream().map(bt -> bt.getTag().getName()).collect(Collectors.toList());
 
+            // 책방의 공간들 이미지 조회
+            List<String> bookstoreImages = postImageRepository.findByPostId(postId).stream().map(pi -> pi.getUrl()).collect(Collectors.toList());
+
             return GetPostRes.builder()
                     .postId(postId)
                     .editorName(editor.getName())
@@ -96,7 +98,8 @@ public class PostService {
                     .createdAt(post.getCreatedAt())
                     .title(post.getTitle())
                     .content(Arrays.asList(post.getContent1(), post.getContent2()))
-                    .contentImage(Arrays.asList(post.getContent1ImgUrl(), post.getContent2ImgUrl()))
+                    .contentImages(Arrays.asList(post.getContent1ImgUrl(), post.getContent2ImgUrl()))
+                    .bookstoreImages(bookstoreImages)
                     .bookstore(new BookstoreInfo(bookstore))
                     .tagList(tags)
                     .build();

@@ -19,7 +19,8 @@ public class GetPostRes {
     private LocalDateTime createdAt;
     private String title;
     private List<String> content;
-    private List<String> contentImage;
+    private List<String> contentImages;
+    private List<String> bookstoreImages;
     private List<String> tagList;
     private BookstoreInfo bookstore;
 }
