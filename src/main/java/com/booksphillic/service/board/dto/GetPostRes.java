@@ -18,7 +18,8 @@ public class GetPostRes {
     private String editorImage;
     private LocalDateTime createdAt;
     private String title;
-    private String content;
+    private List<String> content;
+    private List<String> contentImage;
     private List<String> tagList;
     private BookstoreInfo bookstore;
 }

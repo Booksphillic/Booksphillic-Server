@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +60,7 @@ public class PostService {
                             GetPostsRes.builder()
                                     .postId(post.getId())
                                     .title(post.getTitle())
-                                    .content(post.getContent())
+                                    .content(post.getContent1())
                                     .district(post.getBookstore().getAddress().getDistrict().getEn())
                                     .editorName(post.getEditor().getName())
                                     .storeImgUrl(post.getBookstore().getProfileImgUrl())
@@ -93,7 +95,8 @@ public class PostService {
                     .editorImage(editor.getProfileImgUrl())
                     .createdAt(post.getCreatedAt())
                     .title(post.getTitle())
-                    .content(post.getContent())
+                    .content(Arrays.asList(post.getContent1(), post.getContent2()))
+                    .contentImage(Arrays.asList(post.getContent1ImgUrl(), post.getContent2ImgUrl()))
                     .bookstore(new BookstoreInfo(bookstore))
                     .tagList(tags)
                     .build();
