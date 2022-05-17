@@ -33,7 +33,7 @@ public class PostController {
                                                     @RequestParam(required = false) String include,
                                                     @RequestParam(required = false) String exclude) {
         try{
-            List<GetPostsRes> getPostsRes = new ArrayList<>();
+            List<GetPostsRes> getPostsRes;
             if(include != null) {
                 if(checkDistrict(include))  // 지역구 유효성 검사
                     getPostsRes = postService.getDistrictPosts(page, size, true, include);
@@ -47,7 +47,7 @@ public class PostController {
                     return new BaseResponse<>(BaseResponseCode.INVALID_DISTRICT);
             }
             else { // 전체 조회
-
+                getPostsRes = postService.getAllDistrictPosts(page, size);
             }
 
             return new BaseResponse<>(getPostsRes);
