@@ -1,4 +1,4 @@
-package com.booksphillic.service.board;
+package com.booksphillic.service.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

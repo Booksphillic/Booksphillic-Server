@@ -1,6 +1,6 @@
 package com.booksphillic.repository;
 
-import com.booksphillic.service.board.GetPostsRes;
+import com.booksphillic.service.board.dto.GetPostsRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

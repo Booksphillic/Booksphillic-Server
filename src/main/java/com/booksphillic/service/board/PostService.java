@@ -10,6 +10,10 @@ import com.booksphillic.repository.CommentRepository;
 import com.booksphillic.repository.PostRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
+import com.booksphillic.service.board.dto.BookstoreInfo;
+import com.booksphillic.service.board.dto.GetCommentsRes;
+import com.booksphillic.service.board.dto.GetPostRes;
+import com.booksphillic.service.board.dto.GetPostsRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +29,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PostService {
     private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
     private final PostJpaRepository postJpaRepository;
     private final BookstoreTagRepository bookstoreTagRepository;
 
@@ -103,21 +106,4 @@ public class PostService {
     }
 
 
-    // 댓글 조회
-    public List<GetCommentsRes> getComments(Long postId) throws BaseException {
-        try{
-            List<Comment> comments = commentRepository.findByPostId(postId);
-            List<GetCommentsRes> commentsRes = comments.stream().map(c -> GetCommentsRes.builder()
-                            .content(c.getContent())
-                            .createdAt(c.getCreatedAt())
-                            .username(c.getUser().getUsername())
-                            .userProfileImgUrl(c.getUser().getProfileImgUrl())
-                            .build())
-                    .collect(Collectors.toList());
-            return commentsRes;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
-        }
-    }
 }
