@@ -1,5 +1,6 @@
 package com.booksphillic.domain.bookstore;
 
+import com.booksphillic.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,9 +20,13 @@ public class BookstoreReview {
     @Column(name = "store_review_id")
     private Long id;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "store_id")
+    private Bookstore store;
 
     @Lob
     @Column(nullable = false)
