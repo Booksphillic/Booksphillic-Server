@@ -21,4 +21,5 @@ public class Address {
 
     private String street;   // 나머지 주소
 
+
 }

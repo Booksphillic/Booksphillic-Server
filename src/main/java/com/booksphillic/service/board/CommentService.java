@@ -48,7 +48,7 @@ public class CommentService {
             Long userId = postCommentReq.getUserId();
             User user = checkUserId(userId);
             if(user == null) { // 유효하지 않은 userid
-                throw new BaseException(BaseResponseCode.INVALID_USERID);
+                throw new BaseException(BaseResponseCode.INVALID_USER_ID);
             }
 
             Comment savedComment = commentRepository.save(Comment.builder()

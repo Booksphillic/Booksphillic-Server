@@ -31,6 +31,9 @@ public class Post extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Enumerated(EnumType.STRING)
+    private PostCategory category;
+
     @Lob
     private String content1;
 
