@@ -1,5 +1,6 @@
 package com.booksphillic.service.board.dto;
 
+import com.booksphillic.domain.board.PostCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class GetPostRes {
     private String editorName;
     private String editorImage;
     private LocalDateTime createdAt;
+    private PostCategory category;
     private String title;
     private List<String> content;
     private List<String> contentImages;

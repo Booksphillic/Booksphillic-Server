@@ -1,17 +1,15 @@
 package com.booksphillic.service.board;
 
-import com.booksphillic.domain.board.Comment;
 import com.booksphillic.domain.board.Editor;
 import com.booksphillic.domain.board.Post;
-import com.booksphillic.domain.board.PostImage;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.repository.*;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.board.dto.BookstoreInfo;
-import com.booksphillic.service.board.dto.GetCommentsRes;
 import com.booksphillic.service.board.dto.GetPostRes;
 import com.booksphillic.service.board.dto.GetPostsRes;
+import com.booksphillic.service.editor.dto.GetEditorPostsRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,6 +60,7 @@ public class PostService {
                                     .district(post.getBookstore().getAddress().getDistrict().getEn())
                                     .editorName(post.getEditor().getName())
                                     .storeImgUrl(post.getBookstore().getProfileImgUrl())
+                                    .category(post.getCategory())
                                     .build())
                     .collect(Collectors.toList());
             return getPostsResList;
@@ -79,7 +77,7 @@ public class PostService {
             Post post = postJpaRepository.findById(postId).get();
 
             if(post == null) // 존재하지 않는 아이디
-                throw new BaseException(BaseResponseCode.INVALID_POSTID);
+                throw new BaseException(BaseResponseCode.INVALID_POST_ID);
 
             Bookstore bookstore = post.getBookstore();
             Editor editor = post.getEditor();
@@ -96,6 +94,7 @@ public class PostService {
                     .editorName(editor.getName())
                     .editorImage(editor.getProfileImgUrl())
                     .createdAt(post.getCreatedAt())
+                    .category(post.getCategory())
                     .title(post.getTitle())
                     .content(Arrays.asList(post.getContent1(), post.getContent2()))
                     .contentImages(Arrays.asList(post.getContent1ImgUrl(), post.getContent2ImgUrl()))
@@ -109,6 +108,27 @@ public class PostService {
             throw new BaseException(BaseResponseCode.DATABASE_ERROR);
         }
 
+    }
+
+    // 에디터 글 조회
+    public List<GetEditorPostsRes> getEditorPosts(Long editorId, int page, int size) throws BaseException {
+        try {
+
+            Pageable pageable = PageRequest.of(page-1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+            List<GetEditorPostsRes> getEditorPostsResList = postJpaRepository.findByEditorId(editorId, pageable).get()
+                    .map(p -> GetEditorPostsRes.builder()
+                            .postId(p.getId())
+                            .title(p.getTitle())
+                            .postCategory(p.getCategory())
+                            .storeImgUrl(p.getBookstore().getProfileImgUrl())
+                            .build())
+                    .collect(Collectors.toList());
+            return getEditorPostsResList;
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.booksphillic.service.board.dto;
 
+import com.booksphillic.domain.board.PostCategory;
 import lombok.*;
 
 @Getter
@@ -13,4 +14,5 @@ public class GetPostsRes {
     private String content;
     private String district;
     private String editorName;
+    private PostCategory category;
 }

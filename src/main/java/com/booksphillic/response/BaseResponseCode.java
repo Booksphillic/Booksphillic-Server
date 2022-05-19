@@ -8,8 +8,10 @@ public enum BaseResponseCode {
     SUCCESS(1000, "성공하였습니다."),
 
     INVALID_DISTRICT(2000, "잘못된 지역구(명)입니다."),
-    INVALID_POSTID(2001, "존재하지 않는 글입니다."),
-    INVALID_USERID(2002, "유효하지 않은 회원 아이디입니다."),
+
+    INVALID_POST_ID(2001, "존재하지 않는 글입니다."),
+    INVALID_USER_ID(2002, "유효하지 않은 회원 아이디입니다."),
+    INVALID_EDITOR_ID(2003, "유효하지 않은 에디터 아이디입니다."),
 
     INVALID_BOOKSTOREID(2100, "존재하지 않는 서점입니다."),
     IMAGE_UPLOAD_ERROR(2101, "파일 변환 중 에러가 발생했습니다."),
