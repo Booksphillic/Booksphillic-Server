@@ -1,6 +1,6 @@
 package com.booksphillic.repository;
 
-import com.booksphillic.service.board.GetPostsRes;
+import com.booksphillic.service.board.dto.GetPostsRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,7 +16,7 @@ public class PostRepository {
 
     // 특정 동네 컬렉션 조회
     public List<GetPostsRes> selectSameDistrictPosts(String district, int offset, int limit) {
-        String sql = "SELECT p.post_id as postId, p.title as title, p.content as content, " +
+        String sql = "SELECT p.post_id as postId, p.title as title, p.content1 as content, " +
                 "b.district as district, b.profile_img as storeImgUrl, e.name as editorName FROM post p " +
                 "JOIN bookstore b on p.store_id = b.store_id " +
                 "JOIN editor e on p.editor_id = e.editor_id " +
@@ -28,7 +28,7 @@ public class PostRepository {
 
     // 다른 동네 컬렉션 조회
     public List<GetPostsRes> selectOtherDistrictPosts(String district, int offset, int limit) {
-        String sql = "SELECT p.post_id as postId, p.title as title, p.content as content, " +
+        String sql = "SELECT p.post_id as postId, p.title as title, p.content1 as content, " +
                 "b.district as district, b.profile_img as storeImgUrl, e.name as editorName FROM post p " +
                 "JOIN bookstore b on p.store_id = b.store_id " +
                 "JOIN editor e on p.editor_id = e.editor_id " +

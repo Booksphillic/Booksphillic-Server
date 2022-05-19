@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class PostImage {
+public class PostImage { // 책방의 공간들
 
     @Id @GeneratedValue
     @Column(name = "post_image_id")

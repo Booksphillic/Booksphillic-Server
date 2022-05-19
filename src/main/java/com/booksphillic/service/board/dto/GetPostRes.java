@@ -1,4 +1,4 @@
-package com.booksphillic.service.board;
+package com.booksphillic.service.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,9 @@ public class GetPostRes {
     private String editorImage;
     private LocalDateTime createdAt;
     private String title;
-    private String content;
+    private List<String> content;
+    private List<String> contentImages;
+    private List<String> bookstoreImages;
     private List<String> tagList;
     private BookstoreInfo bookstore;
 }

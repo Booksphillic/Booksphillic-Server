@@ -1,4 +1,4 @@
-package com.booksphillic.service.board;
+package com.booksphillic.service.board.dto;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.OperatingHours;

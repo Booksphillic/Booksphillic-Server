@@ -32,6 +32,15 @@ public class Post extends BaseEntity {
     private String title;
 
     @Lob
-    private String content;
+    private String content1;
+
+    @Lob
+    private String content2;
+
+    @Column(name = "content1_img_url")
+    private String content1ImgUrl;
+
+    @Column(name = "content2_img_url")
+    private String content2ImgUrl;
 
 }

@@ -1,9 +1,7 @@
 package com.booksphillic.controller;
 
-import com.booksphillic.domain.board.Comment;
-import com.booksphillic.service.board.GetCommentsRes;
-import com.booksphillic.service.board.GetPostRes;
-import com.booksphillic.service.board.GetPostsRes;
+import com.booksphillic.service.board.CommentService;
+import com.booksphillic.service.board.dto.*;
 import com.booksphillic.domain.bookstore.DistrictType;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
@@ -12,7 +10,6 @@ import com.booksphillic.service.board.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +18,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     /**
      * GET /api/board
@@ -57,7 +55,7 @@ public class PostController {
         }
     }
 
-    public boolean checkDistrict(String district) {
+    private boolean checkDistrict(String district) {
         for(DistrictType dt : DistrictType.values()) {
             if(district.equals(dt.getEn())) return true;
         }
@@ -90,11 +88,26 @@ public class PostController {
     @ResponseBody
     public BaseResponse<List<GetCommentsRes>> getComments(@PathVariable Long postId) {
         try {
-            List<GetCommentsRes> comments = postService.getComments(postId);
+            List<GetCommentsRes> comments = commentService.getComments(postId);
             return new BaseResponse<>(comments);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
     }
 
+    /***
+     * POST /api/board/:postId/comment
+     * 게시글 댓글 작성
+     */
+    @PostMapping("/{postId}/comment")
+    @ResponseBody
+    public BaseResponse<PostCommentRes> postComments(@PathVariable Long postId, @RequestBody PostCommentReq postCommentReq) {
+        try {
+            PostCommentRes postCommentRes = commentService.postComment(postId, postCommentReq);
+            return new BaseResponse<>(postCommentRes);
+
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
 }
