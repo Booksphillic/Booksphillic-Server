@@ -31,6 +31,8 @@ public class Bookstore {
     @Column(name = "profile_img", length= 100, nullable = false)
     private String profileImgUrl;
 
+    private String subtitle; //소제목
+
     @Embedded
     private OperatingHours hours;
 

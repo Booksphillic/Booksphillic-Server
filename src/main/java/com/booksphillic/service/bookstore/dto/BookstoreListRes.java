@@ -12,12 +12,12 @@ public class BookstoreListRes {
     private Long storeId;
     private String name;
     private String profileImgUrl;
-    private String description;
+    private String subtitle;
 
     public BookstoreListRes(Bookstore bookstore) {
         storeId = bookstore.getId();
         name = bookstore.getName();
         profileImgUrl = bookstore.getProfileImgUrl();
-        description = bookstore.getDescription();
+        subtitle = bookstore.getSubtitle();
     }
 }
