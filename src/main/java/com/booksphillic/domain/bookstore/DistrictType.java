@@ -38,4 +38,12 @@ public enum DistrictType {
         this.ko = ko;
         this.en = en;
     }
+
+    public String getKo() {
+        return ko;
+    }
+
+    public String getEn() {
+        return en;
+    }
 }
