@@ -18,7 +18,9 @@ public class BookstoreReviewImage {
     @Column(name = "store_review_image_id")
     private Long id;
 
-    private Long storeReviewId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "review_id")
+    private BookstoreReview storeReview;
 
     @Column(nullable = false)
     private String url;

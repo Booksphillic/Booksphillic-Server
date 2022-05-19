@@ -3,6 +3,7 @@ package com.booksphillic.domain.bookstore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -21,4 +22,8 @@ public class Address {
 
     private String street;   // 나머지 주소
 
+    @Override
+    public String toString() {
+        return this.getCity() + " " + this.getDistrict().getKo() + " " +this.getStreet();
+    }
 }

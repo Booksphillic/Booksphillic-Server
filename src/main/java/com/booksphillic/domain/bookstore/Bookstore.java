@@ -1,11 +1,14 @@
 package com.booksphillic.domain.bookstore;
 
+import com.booksphillic.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -18,13 +21,17 @@ public class Bookstore {
     @Column(name = "store_id")
     private Long id;
 
-    private Long userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false, length = 100)
     private String name;
 
     @Column(name = "profile_img", length= 100, nullable = false)
     private String profileImgUrl;
+
+    private String subtitle; //소제목
 
     @Embedded
     private OperatingHours hours;
@@ -49,6 +56,5 @@ public class Bookstore {
 
     @Column(name = "facility")
     private String facility; // ex) 와이파이
-
 
 }
