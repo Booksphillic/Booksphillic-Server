@@ -3,6 +3,7 @@ package com.booksphillic.repository;
 import com.booksphillic.domain.board.PostCategory;
 import com.booksphillic.service.board.dto.GetPostsRes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
