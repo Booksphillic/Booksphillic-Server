@@ -22,6 +22,7 @@ public class BookstoreTag {
     @JoinColumn(name = "store_id")
     private Bookstore store;
 
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tag_id")
     private Tag tag;

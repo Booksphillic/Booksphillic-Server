@@ -48,11 +48,11 @@ public class Bookstore {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "contact", length = 11)
+    @Column(name = "contact", length = 13)
     private String contact; // 전화번호
 
     @Column(name = "number_seats")
-    private int numberSeats;
+    private Integer numberSeats;
 
     @Column(name = "facility")
     private String facility; // ex) 와이파이
