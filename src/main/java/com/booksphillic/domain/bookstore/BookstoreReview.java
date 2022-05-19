@@ -1,5 +1,6 @@
 package com.booksphillic.domain.bookstore;
 
+import com.booksphillic.domain.BaseEntity;
 import com.booksphillic.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class BookstoreReview {
+public class BookstoreReview extends BaseEntity {
 
     @Id
     @GeneratedValue

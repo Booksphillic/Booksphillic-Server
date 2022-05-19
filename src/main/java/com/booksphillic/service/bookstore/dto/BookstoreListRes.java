@@ -1,4 +1,4 @@
-package com.booksphillic.service.bookstore;
+package com.booksphillic.service.bookstore.dto;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import lombok.AllArgsConstructor;

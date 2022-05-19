@@ -5,6 +5,7 @@ import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
+import com.booksphillic.service.bookstore.dto.BookstoreDetailRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -36,7 +36,6 @@ public class BookstoreRepository {
             log.error(e.getMessage());
             return null;
         }
-
     }
 
     /**
@@ -57,4 +56,5 @@ public class BookstoreRepository {
             return null;
         }
     }
+
 }

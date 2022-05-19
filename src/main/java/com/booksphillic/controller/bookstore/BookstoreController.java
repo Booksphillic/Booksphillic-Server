@@ -1,21 +1,18 @@
 package com.booksphillic.controller.bookstore;
 
 import com.booksphillic.domain.bookstore.Bookstore;
+import com.booksphillic.domain.bookstore.BookstoreReview;
 import com.booksphillic.domain.bookstore.DistrictType;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
 import com.booksphillic.response.BaseResponseCode;
-import com.booksphillic.service.bookstore.BookstoreDetailRes;
+import com.booksphillic.service.bookstore.BookstoreReviewService;
+import com.booksphillic.service.bookstore.dto.*;
 import com.booksphillic.service.bookstore.BookstoreService;
-import com.booksphillic.service.bookstore.BookstoreListRes;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +22,7 @@ import java.util.stream.Collectors;
 public class BookstoreController {
 
     private final BookstoreService bookstoreService;
+    private final BookstoreReviewService bookstoreReviewService;
 
     /**
      * 책방 프로필 전체 조회 (district=0 -> 전체 조회, !=0 -> 지역구별 조회)
@@ -80,4 +78,54 @@ public class BookstoreController {
             return new BaseResponse<>(e.getCode());
         }
     }
+
+    /**
+     * 메인화면 책방 프로필(이름, 주소, 대표사진, 소개글?)
+     */
+
+
+    /**
+     * 책방 리뷰 작성 이미지 등록 (최대 4장)
+     */
+    @PostMapping("/reviewImages")
+    public BaseResponse<List<String>> postBookstoreReview(@RequestParam List<MultipartFile> files) {
+        try {
+            System.out.println("files.size() = " + files.size());
+            List<String> urls = bookstoreReviewService.postReviewImages(files);
+            return new BaseResponse<>(urls);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
+    /**
+     * 책방 리뷰 등록 (이미지 url포함)
+     */
+    @PostMapping("/{storeId}/review")
+    public BaseResponse<StoreReviewRes> postBookstoreReview(@PathVariable Long storeId, @RequestBody StoreReviewReq storeReviewReq) {
+        try {
+            Long userId = storeReviewReq.getUserId();
+            String content = storeReviewReq.getContent();
+            List<String> urls = storeReviewReq.getUrls();
+
+            StoreReviewRes storeReviewRes = bookstoreReviewService.postReview(storeId, userId, content, urls);
+            return new BaseResponse<>(storeReviewRes);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
+    /**
+     * 책방별 리뷰 조회
+     */
+    @GetMapping("/{storeId}/reviewList")
+    public BaseResponse<List<StoreReviewListRes>> getBookstoreReviews(@PathVariable Long storeId) {
+        try {
+            List<StoreReviewListRes> result = bookstoreReviewService.getReviews(storeId);
+            return new BaseResponse<>(result);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
 }
