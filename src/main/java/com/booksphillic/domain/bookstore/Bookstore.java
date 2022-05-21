@@ -25,8 +25,12 @@ public class Bookstore {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "registration_number")
+    private String registrationNumber;
+
     @Column(nullable = false, length = 100)
     private String name;
+
 
     @Column(name = "profile_img")
     private String profileImgUrl;

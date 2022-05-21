@@ -2,6 +2,7 @@ package com.booksphillic.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class BaseResponse<T> {
