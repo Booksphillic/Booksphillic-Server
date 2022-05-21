@@ -62,7 +62,7 @@ public class BookstoreReviewService {
             }
             User user = checkUserId(userId);
             if(user == null) {
-                throw new BaseException(BaseResponseCode.INVALID_USERID);
+                throw new BaseException(BaseResponseCode.INVALID_USER_ID);
             }
             // BookstoreReview 에 리뷰 먼저 등록 -> reviewId 받아와서
             BookstoreReview review = BookstoreReview.builder()
@@ -87,7 +87,7 @@ public class BookstoreReviewService {
                     .urls(resultUrls).build();
         } catch (IllegalArgumentException iae) {
             log.error(iae.getMessage());
-            throw new BaseException(BaseResponseCode.INVALID_USERID);
+            throw new BaseException(BaseResponseCode.INVALID_USER_ID);
         }
         catch (BaseException e) {
             log.error(e.getMessage());
@@ -114,7 +114,7 @@ public class BookstoreReviewService {
                         StoreReviewListRes.builder()
                                 .reviewId(review.getId())
                                 .username(review.getUser().getUsername())
-                                .createdAt(review.getCreateAt())
+                                .createdAt(review.getCreatedAt())
                                 .urls(urls)
                                 .build()
                 );
