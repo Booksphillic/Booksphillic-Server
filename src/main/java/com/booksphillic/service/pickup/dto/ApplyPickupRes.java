@@ -2,20 +2,20 @@ package com.booksphillic.service.pickup.dto;
 
 import com.booksphillic.domain.pickup.BookGenre;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Builder
 @AllArgsConstructor
-public class ApplyPickupReq {
+public class ApplyPickupRes {
 
-    private Long userId;
-    private Long storeId;
-    private BookGenre bookGenre;
+    private String bookstoreName;
     private LocalDateTime pickupDate;
-    private String status;
+    private BookGenre bookGenres;
     private String requirements;
 
 }

@@ -2,15 +2,15 @@ package com.booksphillic.controller.pickup;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
+import com.booksphillic.domain.pickup.BookGenre;
 import com.booksphillic.repository.pickup.PickupRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
 import com.booksphillic.response.BaseResponseCode;
-import com.booksphillic.service.bookstore.BookstoreService;
-import com.booksphillic.service.bookstore.dto.BookstoreDetailRes;
 import com.booksphillic.service.bookstore.dto.BookstoreListRes;
 import com.booksphillic.service.pickup.PickupService;
 import com.booksphillic.service.pickup.dto.ApplyPickupReq;
+import com.booksphillic.service.pickup.dto.ApplyPickupRes;
 import com.booksphillic.service.pickup.dto.PickupBookstoreDetailRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +29,18 @@ public class PickupController {
     private final PickupRepository pickupRepository;
 
     @PostMapping("/apply")
-    public BaseResponse<Void> applyPickup(@RequestBody ApplyPickupReq applyPickupReq) {
+    public BaseResponse<ApplyPickupRes> applyPickup(@RequestBody ApplyPickupReq applyPickupReq) {
         try {
             Long userId = applyPickupReq.getUserId();
             Long storeId = applyPickupReq.getStoreId();
-            String genre = applyPickupReq.getGenre();
-            LocalDateTime creationAt = applyPickupReq.getCreationAt();
+            BookGenre bookGenre = applyPickupReq.getBookGenre();
+            LocalDateTime pickupDate = applyPickupReq.getPickupDate();
             String status = applyPickupReq.getStatus();
             String requirements = applyPickupReq.getRequirements();
 
-            pickupService.postPickup(userId, storeId, genre, creationAt, status, requirements);
+            ApplyPickupRes applyPickupRes = pickupService.postPickup(userId, storeId, bookGenre, pickupDate, status, requirements);
 
-            return new BaseResponse<>(BaseResponseCode.SUCCESS);
+            return new BaseResponse<>(applyPickupRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
@@ -52,7 +52,7 @@ public class PickupController {
      * @return
      */
     @GetMapping("/list")
-    public BaseResponse<List<BookstoreListRes>> getStoreListByDistrict(@RequestParam(name = "district", defaultValue = "0") String district) {
+    public BaseResponse<List<BookstoreListRes>> getStoreListByDistrict(@RequestParam(name = "district") String district) {
         try {
             List<Bookstore> bookstores;
             List<BookstoreListRes> result;
@@ -60,7 +60,7 @@ public class PickupController {
             if (checkDistrict(district)) {
                 bookstores = pickupService.findByDistrict(district);
                 result = bookstores.stream()
-                        .map(b -> new BookstoreListRes(b))
+                        .map(BookstoreListRes::new)
                         .collect(Collectors.toList());
                 return new BaseResponse<>(result);
             } else {
