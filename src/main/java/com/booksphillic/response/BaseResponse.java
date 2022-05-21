@@ -13,16 +13,17 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    // 성공한 경우
+    // 데이터가 있는 경우
     public BaseResponse(T data) {
         this.code = BaseResponseCode.SUCCESS.getCode(); //성공
         this.message = BaseResponseCode.SUCCESS.getMessage();
         this.data = data;
     }
 
-    // 실패한 경우
+    // 데이터가 없는 경우
     public BaseResponse(BaseResponseCode status) {
         this.code = status.getCode();
         this.message = status.getMessage();
     }
+
 }

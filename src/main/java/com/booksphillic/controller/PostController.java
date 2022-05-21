@@ -1,5 +1,7 @@
 package com.booksphillic.controller;
 
+import com.booksphillic.service.auth.AuthService;
+import com.booksphillic.service.auth.JwtService;
 import com.booksphillic.service.board.CommentService;
 import com.booksphillic.service.board.dto.*;
 import com.booksphillic.domain.bookstore.DistrictType;
@@ -19,6 +21,8 @@ public class PostController {
 
     private final PostService postService;
     private final CommentService commentService;
+    private final AuthService authService;
+    private final JwtService jwtService;
 
     /**
      * GET /api/board
@@ -101,8 +105,13 @@ public class PostController {
      */
     @PostMapping("/{postId}/comment")
     @ResponseBody
-    public BaseResponse<PostCommentRes> postComments(@PathVariable Long postId, @RequestBody PostCommentReq postCommentReq) {
+    public BaseResponse<PostCommentRes> postComments(@PathVariable Long postId, @RequestBody PostCommentReq postCommentReq,
+                                                     @RequestHeader(required = false, name = "authorization") String authorization) {
+
         try {
+            String jwt = authService.validateBearerToken(authorization);
+            jwtService.validateJwt(jwt, postCommentReq.getUserId());
+
             PostCommentRes postCommentRes = commentService.postComment(postId, postCommentReq);
             return new BaseResponse<>(postCommentRes);
 
@@ -110,4 +119,6 @@ public class PostController {
             return new BaseResponse<>(e.getCode());
         }
     }
+
+
 }
