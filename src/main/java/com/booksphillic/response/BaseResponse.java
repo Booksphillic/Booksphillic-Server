@@ -2,6 +2,7 @@ package com.booksphillic.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class BaseResponse<T> {
@@ -12,6 +13,11 @@ public class BaseResponse<T> {
     // null인 경우 제외
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
+
+    public BaseResponse() {
+        this.code = BaseResponseCode.SUCCESS.getCode(); //성공
+        this.message = BaseResponseCode.SUCCESS.getMessage();
+    }
 
     // 성공한 경우
     public BaseResponse(T data) {

@@ -4,12 +4,15 @@ import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreReview;
 import com.booksphillic.domain.bookstore.BookstoreReviewImage;
 import com.booksphillic.domain.user.User;
+import com.booksphillic.domain.user.UserPickupReviewCount;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.repository.bookstore.BookstoreReviewJpaRepository;
 import com.booksphillic.repository.bookstore.ReviewImageJpaRepository;
+import com.booksphillic.repository.user.UserPRCountRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
+import com.booksphillic.service.awsS3.FileProcessService;
 import com.booksphillic.service.bookstore.dto.StoreReviewListRes;
 import com.booksphillic.service.bookstore.dto.StoreReviewRes;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +35,7 @@ public class BookstoreReviewService {
     private final BookstoreRepository bookstoreRepository;
     private final UserRepository userRepository;
     private final ReviewImageJpaRepository reviewImageJpaRepository;
+    private final UserPRCountRepository countRepository;
 
     @Transactional
     public List<String> postReviewImages(List<MultipartFile> files) throws BaseException {
@@ -62,7 +65,7 @@ public class BookstoreReviewService {
             }
             User user = checkUserId(userId);
             if(user == null) {
-                throw new BaseException(BaseResponseCode.INVALID_USERID);
+                throw new BaseException(BaseResponseCode.INVALID_USER_ID);
             }
             // BookstoreReview 에 리뷰 먼저 등록 -> reviewId 받아와서
             BookstoreReview review = BookstoreReview.builder()
@@ -81,13 +84,20 @@ public class BookstoreReviewService {
                 );
                 resultUrls.add(url);
             }
+
+            //UserPickupReviewCount에 reviewCount+1, phillic+10 해주기
+            UserPickupReviewCount count = countRepository.findByUserId(userId).get();
+            count.setReviewCount(count.getReviewCount()+1);
+            count.setPhillic(count.getPhillic()+10);
+            countRepository.save(count);
+
             return StoreReviewRes.builder()
                     .reviewId(review.getId())
                     .username(user.getUsername())
                     .urls(resultUrls).build();
         } catch (IllegalArgumentException iae) {
             log.error(iae.getMessage());
-            throw new BaseException(BaseResponseCode.INVALID_USERID);
+            throw new BaseException(BaseResponseCode.INVALID_USER_ID);
         }
         catch (BaseException e) {
             log.error(e.getMessage());
@@ -114,7 +124,7 @@ public class BookstoreReviewService {
                         StoreReviewListRes.builder()
                                 .reviewId(review.getId())
                                 .username(review.getUser().getUsername())
-                                .createdAt(review.getCreateAt())
+                                .createdAt(review.getCreatedAt())
                                 .urls(urls)
                                 .build()
                 );

@@ -25,10 +25,13 @@ public class Bookstore {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "registration_number")
+    private String registrationNumber;
+
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "profile_img", length= 100, nullable = false)
+    @Column(name = "profile_img", length= 100)
     private String profileImgUrl;
 
     private String subtitle; //소제목
@@ -36,7 +39,6 @@ public class Bookstore {
     @Embedded
     private OperatingHours hours;
 
-    @Column(nullable = false)
     private String description;
 
     @Embedded

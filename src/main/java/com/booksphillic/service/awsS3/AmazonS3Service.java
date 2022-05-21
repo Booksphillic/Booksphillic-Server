@@ -1,4 +1,4 @@
-package com.booksphillic.service.bookstore;
+package com.booksphillic.service.awsS3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

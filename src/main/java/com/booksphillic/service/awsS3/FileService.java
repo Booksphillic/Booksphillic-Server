@@ -1,4 +1,4 @@
-package com.booksphillic.service.bookstore;
+package com.booksphillic.service.awsS3;
 
 import java.io.InputStream;
 import com.amazonaws.services.s3.model.ObjectMetadata;

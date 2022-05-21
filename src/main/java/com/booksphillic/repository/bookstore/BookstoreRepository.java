@@ -3,6 +3,8 @@ package com.booksphillic.repository.bookstore;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.domain.bookstore.DistrictType;
+import com.booksphillic.response.BaseException;
+import com.booksphillic.response.BaseResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -42,7 +44,12 @@ public class BookstoreRepository {
      * 서점 프로필 세부 조회
      */
     public Bookstore findById(Long id) {
-        return em.find(Bookstore.class, id);
+        try {
+            return em.find(Bookstore.class, id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     public List<BookstoreImage> findBookstoreImgsById(Long id) {
