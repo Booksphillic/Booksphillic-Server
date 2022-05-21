@@ -31,7 +31,8 @@ public class Bookstore {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "profile_img", length= 100)
+
+    @Column(name = "profile_img")
     private String profileImgUrl;
 
     private String subtitle; //소제목

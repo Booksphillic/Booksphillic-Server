@@ -17,6 +17,14 @@ public enum BaseResponseCode {
     IMAGE_UPLOAD_ERROR(2101, "파일 변환 중 에러가 발생했습니다."),
     SCRAP_ERROR(2102, "스크랩에 실패하였습니다. 다시 시도해주세요"),
 
+    INVALID_FORMATTED_EMAIL(2200, "올바른 이메일 형식이 아닙니다."),
+    NON_EXISTENT_EMAIL(2201, "존재하지 않는 이메일입니다."),
+    WRONG_PASSWORD(2202, "잘못된 비밀번호입니다."),
+    EMPTY_ACCESS_TOKEN(2203, "Access Token을 추가해주세요."),
+    EXPIRED_TOKEN(2204, "만료된 토큰입니다."),
+    UNAUTHORIZED_USER(2205, "권한이 없는 회원입니다."),
+    INVALID_ACCESS_TOKEN(2206, "올바른 토큰이 아닙니다."),
+
     DATABASE_ERROR(4000, "데이터베이스 연결에 실패하였습니다.");
 
 
