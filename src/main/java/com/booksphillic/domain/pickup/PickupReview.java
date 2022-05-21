@@ -1,5 +1,6 @@
 package com.booksphillic.domain.pickup;
 
+import com.booksphillic.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class PickupReview {
+public class PickupReview extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "pickup_review_id")

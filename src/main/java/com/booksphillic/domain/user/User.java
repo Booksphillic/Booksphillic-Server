@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
@@ -34,26 +36,31 @@ public class User {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "provider_type", length = 10, nullable = false)
+    @Column(name = "provider_type", length = 10)
+    @ColumnDefault("LOCAL")
     private ProviderType providerType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 10, nullable = false)
+    @Column(name = "status", length = 10)
+    @ColumnDefault("ACTIVE")
     private UserStatus userStatus;
 
-    @Column(name = "profile_img", length = 50)
+    @Column(name = "profile_img")
     private String profileImgUrl;
 
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    @Column(name = "terms_conditions", nullable = false)
+    @Column(name = "terms_conditions")
+    @ColumnDefault("true")
     private boolean termsConditions;
 
-    @Column(name = "personal_data_processing_policy", nullable = false)
+    @Column(name = "personal_data_processing_policy")
+    @ColumnDefault("true")
     private boolean dataPolicy;
 
-    @Column(name = "receive_email", nullable = false)
+    @Column(name = "receive_email")
+    @ColumnDefault("true")
     private boolean receiveEmail;
 
 }
