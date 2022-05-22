@@ -50,19 +50,9 @@ public class PostService {
 
     // 전체 동네 글 리스트 조회
     public List<GetPostsRes> getAllDistrictPosts(int page, int size) throws BaseException {
-        Pageable pageable = PageRequest.of(page-1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        int offset = (page-1)*size;
         try {
-            List<GetPostsRes> getPostsResList = postJpaRepository.findAll(pageable).get().map(post ->
-                            GetPostsRes.builder()
-                                    .postId(post.getId())
-                                    .title(post.getTitle())
-                                    .content(post.getContent1())
-                                    .district(post.getBookstore().getAddress().getDistrict().getEn())
-                                    .editorName(post.getEditor().getName())
-                                    .storeImgUrl(post.getBookstore().getProfileImgUrl())
-                                    .category(post.getCategory())
-                                    .build())
-                    .collect(Collectors.toList());
+            List<GetPostsRes> getPostsResList = postRepository.selectAllDistrictPosts(offset, size);
             return getPostsResList;
 
         } catch (Exception e) {
