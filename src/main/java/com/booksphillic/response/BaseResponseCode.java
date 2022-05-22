@@ -24,8 +24,14 @@ public enum BaseResponseCode {
     EXPIRED_TOKEN(2204, "만료된 토큰입니다."),
     UNAUTHORIZED_USER(2205, "권한이 없는 회원입니다."),
     INVALID_ACCESS_TOKEN(2206, "올바른 토큰이 아닙니다."),
+    DISAGREE_REQUIRED_ITEMS(2207, "필수 항목을 모두 동의해주세요"),
 
-    DATABASE_ERROR(4000, "데이터베이스 연결에 실패하였습니다.");
+    PASSWORD_CONFIRMATION_DIFFERENT(2210, "비밀번호가 일치하지 않습니다."),
+    DUPLICATED_EMAIL(2211, "중복된 이메일입니다."),
+    INVALID_FORMATTED_PHONE_NUMBER(2212, "올바른 전화번호 형식이 아닙니다."),
+
+
+    DATABASE_ERROR(4000, "데이터베이스 요청에 실패하였습니다.");
 
 
 

@@ -64,4 +64,13 @@ public class BookstoreRepository {
         }
     }
 
+    public void createBookstore(Bookstore bookstore) {
+        try {
+            em.persist(bookstore);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+    }
+
 }
