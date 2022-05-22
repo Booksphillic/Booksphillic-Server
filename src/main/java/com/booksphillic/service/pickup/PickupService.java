@@ -34,7 +34,7 @@ public class PickupService {
     private final BookstoreRepository bookstoreRepository;
 
     @Transactional
-    public ApplyPickupRes postPickup(Long userId, Long storeId, BookGenre bookGenre, LocalDateTime pickupDate, String status, String requirements) throws BaseException {
+    public ApplyPickupRes postPickup(Long userId, Long storeId, String bookGenre, LocalDateTime pickupDate, PickupStatus status, String requirements) throws BaseException {
         try {
             User user = checkUserId(userId);
             if(user == null) {
@@ -48,7 +48,7 @@ public class PickupService {
             Pickup pickup = Pickup.builder()
                     .userId(userId)
                     .storeId(storeId)
-                    .bookGenre(BookGenre.valueOf(bookGenre.getEn()))
+                    .bookGenre(BookGenre.valueOf(bookGenre))
                     .pickupDate(pickupDate)
                     .pickupStatus(PickupStatus.NEW)
                     .requirements(requirements)
@@ -59,7 +59,7 @@ public class PickupService {
             return ApplyPickupRes.builder()
                     .bookstoreName(bookstoreRepository.findById(storeId).getName())
                     .pickupDate(pickupDate)
-                    .bookGenres(BookGenre.valueOf(bookGenre.getKo()))
+                    .bookGenres(BookGenre.valueOf(bookGenre))
                     .requirements(requirements).build();
 
         } catch (BaseException e) {

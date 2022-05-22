@@ -1,6 +1,7 @@
 package com.booksphillic.service.pickup.dto;
 
 import com.booksphillic.domain.pickup.BookGenre;
+import com.booksphillic.domain.pickup.PickupStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,9 +14,9 @@ public class ApplyPickupReq {
 
     private Long userId;
     private Long storeId;
-    private BookGenre bookGenre;
+    private String bookGenre;
     private LocalDateTime pickupDate;
-    private String status;
+    private PickupStatus status;
     private String requirements;
 
 }

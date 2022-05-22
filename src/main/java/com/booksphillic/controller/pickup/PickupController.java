@@ -2,7 +2,7 @@ package com.booksphillic.controller.pickup;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
-import com.booksphillic.domain.pickup.BookGenre;
+import com.booksphillic.domain.pickup.PickupStatus;
 import com.booksphillic.repository.pickup.PickupRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
@@ -33,9 +33,9 @@ public class PickupController {
         try {
             Long userId = applyPickupReq.getUserId();
             Long storeId = applyPickupReq.getStoreId();
-            BookGenre bookGenre = applyPickupReq.getBookGenre();
+            String bookGenre = applyPickupReq.getBookGenre();
             LocalDateTime pickupDate = applyPickupReq.getPickupDate();
-            String status = applyPickupReq.getStatus();
+            PickupStatus status = applyPickupReq.getStatus();
             String requirements = applyPickupReq.getRequirements();
 
             ApplyPickupRes applyPickupRes = pickupService.postPickup(userId, storeId, bookGenre, pickupDate, status, requirements);
