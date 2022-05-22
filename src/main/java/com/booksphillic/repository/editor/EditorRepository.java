@@ -1,4 +1,4 @@
-package com.booksphillic.repository;
+package com.booksphillic.repository.editor;
 
 import com.booksphillic.domain.board.Editor;
 import org.springframework.data.jpa.repository.JpaRepository;

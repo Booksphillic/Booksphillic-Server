@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -29,5 +26,9 @@ public class Editor {
 
     @Column(name = "profile_img")
     private String profileImgUrl;
+
+    @OneToOne
+    @JoinColumn(name = "post_count_id")
+    private EditorPostCount editorPostCount;
 
 }
