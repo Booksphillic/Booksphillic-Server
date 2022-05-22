@@ -2,6 +2,7 @@ package com.booksphillic.controller.pickup;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
+import com.booksphillic.domain.pickup.Pickup;
 import com.booksphillic.domain.pickup.PickupStatus;
 import com.booksphillic.repository.pickup.PickupRepository;
 import com.booksphillic.response.BaseException;
@@ -11,6 +12,7 @@ import com.booksphillic.service.bookstore.dto.BookstoreListRes;
 import com.booksphillic.service.pickup.PickupService;
 import com.booksphillic.service.pickup.dto.ApplyPickupReq;
 import com.booksphillic.service.pickup.dto.ApplyPickupRes;
+import com.booksphillic.service.pickup.dto.PickupListRes;
 import com.booksphillic.service.pickup.dto.PickupBookstoreDetailRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +47,26 @@ public class PickupController {
             return new BaseResponse<>(e.getCode());
         }
     }
+
+    /**
+     * 유저별 픽업 조회
+     */
+    @GetMapping("/{userId}")
+    public BaseResponse<List<PickupListRes>> getPickupByUser(@PathVariable Long userId) {
+
+        try {
+            List<Pickup> pickups = pickupService.getPickupByUser(userId);
+            List<PickupListRes> result = pickups.stream()
+                    .map(PickupListRes::new)
+                    .collect(Collectors.toList());
+
+            return new BaseResponse<>(result);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
+
 
     /**
      * 지역구별 책방 조회

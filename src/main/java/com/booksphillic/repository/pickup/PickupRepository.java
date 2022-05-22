@@ -2,6 +2,7 @@ package com.booksphillic.repository.pickup;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
+import com.booksphillic.domain.pickup.Pickup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,17 @@ public class PickupRepository {
 
     public Bookstore findById(Long id) {
         return em.find(Bookstore.class, id);
+    }
+
+    public List<Pickup> findByUserId(Long userId) {
+        try {
+            return em.createQuery("select p from Pickup p where p.userId=:userId", Pickup.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     public List<Bookstore> findByDistrict(String district) {
