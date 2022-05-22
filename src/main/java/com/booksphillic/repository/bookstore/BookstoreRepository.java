@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -64,4 +65,13 @@ public class BookstoreRepository {
         }
     }
 
+    public Bookstore findByUserId(Long userId) throws Exception {
+        try {
+            return (Bookstore) em.createQuery("select b from Bookstore b where b.user.id = :user")
+                    .setParameter("user", userId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException("해당 유저의 서점이 존재하지 않습니다.");
+        }
+    }
 }
