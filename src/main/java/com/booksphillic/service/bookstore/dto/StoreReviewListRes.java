@@ -14,6 +14,7 @@ public class StoreReviewListRes {
 
     private Long reviewId;
     private String username;
+    private String content;
     private LocalDateTime createdAt;
     private List<String> urls;
 }

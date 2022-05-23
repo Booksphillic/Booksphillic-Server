@@ -124,6 +124,7 @@ public class BookstoreReviewService {
                         StoreReviewListRes.builder()
                                 .reviewId(review.getId())
                                 .username(review.getUser().getUsername())
+                                .content(review.getContent())
                                 .createdAt(review.getCreatedAt())
                                 .urls(urls)
                                 .build()
