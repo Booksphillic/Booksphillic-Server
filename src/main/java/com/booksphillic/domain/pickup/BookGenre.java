@@ -1,5 +1,8 @@
 package com.booksphillic.domain.pickup;
 
+import lombok.Getter;
+
+@Getter
 public enum BookGenre {
 
     ESSAY("에세이", "ESSAY"),
