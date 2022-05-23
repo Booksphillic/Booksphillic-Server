@@ -65,6 +65,16 @@ public class BookstoreRepository {
         }
     }
 
+    public void createBookstore(Bookstore bookstore) {
+        try {
+            em.persist(bookstore);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+    }
+
+
     public Bookstore findByUserId(Long userId) throws Exception {
         try {
             return (Bookstore) em.createQuery("select b from Bookstore b where b.user.id = :user")
