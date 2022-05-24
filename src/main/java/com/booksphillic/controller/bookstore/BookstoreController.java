@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,23 +29,17 @@ public class BookstoreController {
      * 책방 프로필 전체 조회 (district=0 -> 전체 조회, !=0 -> 지역구별 조회)
      */
     @GetMapping("/list")
-    public BaseResponse<List<BookstoreListRes>> getAllStoreList(@RequestParam(name = "district", defaultValue = "0") String district) {
+    public BaseResponse<List<BookstoreListRes>> getAllStoreList(@RequestParam(name = "userId") Long userId, @RequestParam(name = "district", defaultValue = "0") String district) {
         try {
             List<Bookstore> bookstores;
             List<BookstoreListRes> result;
             if(district.equals("0")) { // 전체 조회
-                bookstores = bookstoreService.findAll();
-                result = bookstores.stream()
-                        .map(b -> new BookstoreListRes(b))
-                        .collect(Collectors.toList());
+                result = bookstoreService.findBookstoreList(userId, "all");
                 return new BaseResponse<>(result);
             }
             else { //지역구별 조회
                 if(checkDistrict(district)) { //지역구 유효성 검사
-                    bookstores = bookstoreService.findByDistrict(district);
-                    result = bookstores.stream()
-                            .map(b -> new BookstoreListRes(b))
-                            .collect(Collectors.toList());
+                    result = bookstoreService.findBookstoreList(userId, district);
                     return new BaseResponse<>(result);
                 }
                 else { //없는 지역구
@@ -68,10 +63,10 @@ public class BookstoreController {
      * 책방 프로필 상세 조회
      */
     @GetMapping("")
-    public BaseResponse<BookstoreDetailRes> getStoreDetail(@RequestParam Long storeId) {
+    public BaseResponse<BookstoreDetailRes> getStoreDetail(@RequestParam(name="storeId") Long storeId, @RequestParam(name="userId") Long userId) {
         try {
             // service에서 id로 bookstore 엔티티 조회
-            BookstoreDetailRes result = bookstoreService.findById(storeId);
+            BookstoreDetailRes result = bookstoreService.findById(storeId, userId);
             // bookstore 엔티티를 dto에 맞게 변환 후 return
             return new BaseResponse<>(result);
         }catch (BaseException e) {
