@@ -32,7 +32,9 @@ public class BookstoreDetailRes {
 
     private List<String> tags;
 
-    public BookstoreDetailRes(Bookstore bookstore, List<BookstoreImage> bookstoreImages, List<BookstoreTag> bookstoreTags) {
+    private boolean isScraped;
+
+    public BookstoreDetailRes(Bookstore bookstore, List<BookstoreImage> bookstoreImages, List<BookstoreTag> bookstoreTags, Boolean scraped) {
         storeId = bookstore.getId();
         name = bookstore.getName();
         profileImgUrl = bookstore.getProfileImgUrl();
@@ -49,5 +51,6 @@ public class BookstoreDetailRes {
         tags = bookstoreTags.stream()
                 .map(t -> t.getTag().getName())
                 .collect(Collectors.toList());
+        isScraped = scraped;
     }
 }
