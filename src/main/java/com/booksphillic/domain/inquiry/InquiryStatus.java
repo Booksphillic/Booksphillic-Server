@@ -1,4 +1,4 @@
-package com.booksphillic.domain.user;
+package com.booksphillic.domain.inquiry;
 
 public enum InquiryStatus {
     WAITING,    // 답변 대기

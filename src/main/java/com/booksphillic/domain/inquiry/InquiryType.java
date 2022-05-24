@@ -1,4 +1,4 @@
-package com.booksphillic.domain.user;
+package com.booksphillic.domain.inquiry;
 
 public enum InquiryType {
     SERVICE, BOOKSTORE, OTHER

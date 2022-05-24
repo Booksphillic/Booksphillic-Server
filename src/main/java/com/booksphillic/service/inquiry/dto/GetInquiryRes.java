@@ -1,36 +1,35 @@
-package com.booksphillic.service.user.dto;
+package com.booksphillic.service.inquiry.dto;
 
-import com.booksphillic.domain.user.Inquiry;
-import com.booksphillic.domain.user.InquiryStatus;
-import com.booksphillic.domain.user.InquiryType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.booksphillic.domain.inquiry.Inquiry;
+import com.booksphillic.domain.inquiry.InquiryStatus;
+import com.booksphillic.domain.inquiry.InquiryType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
-public class GetOwnerInquiryRes {
+public class GetInquiryRes {
 
     private Long inquiryId;
     private Long inquirerId;
     private Long ownerId;
     private LocalDateTime createdAt;
+    private String title;
     private String content;
     private InquiryType type;
     private InquiryStatus status;
 
 
-    public GetOwnerInquiryRes(Inquiry inquiry) {
+    public GetInquiryRes(Inquiry inquiry) {
         this.inquiryId = inquiry.getInquiryId();
         this.inquirerId = inquiry.getInquirerId();
         this.ownerId = inquiry.getOwnerId();
         this.createdAt = inquiry.getCreatedAt();
+        this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
         this.type = inquiry.getType();
         this.status = inquiry.getStatus();
     }
+
 }

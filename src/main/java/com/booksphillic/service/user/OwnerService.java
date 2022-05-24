@@ -4,16 +4,12 @@ package com.booksphillic.service.user;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.domain.bookstore.BookstoreTag;
-import com.booksphillic.domain.user.Inquiry;
-import com.booksphillic.domain.user.InquiryType;
 import com.booksphillic.domain.user.User;
 import com.booksphillic.repository.BookstoreTagRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
-import com.booksphillic.repository.user.InquiryRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
-import com.booksphillic.service.user.dto.GetOwnerInquiryRes;
 import com.booksphillic.service.user.dto.GetOwnerProfileRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +27,6 @@ public class OwnerService {
     private final UserRepository userRepository;
     private final BookstoreRepository bookstoreRepository;
     private final BookstoreTagRepository tagRepository;
-    private final InquiryRepository inquiryRepository;
 
     public GetOwnerProfileRes getStoreProfile(Long userId) throws BaseException {
         try {
@@ -77,18 +72,5 @@ public class OwnerService {
     private User checkUserId(Long userId) throws IllegalArgumentException {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 ID"));
-    }
-
-    // 문의 조회 내역 조회
-    public List<GetOwnerInquiryRes> getInquiries(Long ownerId, InquiryType type, int page, int size) throws BaseException {
-        try{
-            int offset = (page-1)*size;
-            List<Inquiry> inquiries = inquiryRepository.findByOwnerIdAndType(ownerId, type, offset, size);
-            return inquiries.stream().map(GetOwnerInquiryRes::new)
-                    .collect(Collectors.toList());
-
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
-        }
     }
 }
