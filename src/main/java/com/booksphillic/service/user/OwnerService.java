@@ -4,12 +4,16 @@ package com.booksphillic.service.user;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.domain.bookstore.BookstoreTag;
+import com.booksphillic.domain.user.Inquiry;
+import com.booksphillic.domain.user.InquiryType;
 import com.booksphillic.domain.user.User;
 import com.booksphillic.repository.BookstoreTagRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
+import com.booksphillic.repository.user.InquiryRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
+import com.booksphillic.service.user.dto.GetOwnerInquiryRes;
 import com.booksphillic.service.user.dto.GetOwnerProfileRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.booksphillic.domain.user.UserRoleType.GENERAL;
-import static com.booksphillic.domain.user.UserRoleType.OWNER;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +31,7 @@ public class OwnerService {
     private final UserRepository userRepository;
     private final BookstoreRepository bookstoreRepository;
     private final BookstoreTagRepository tagRepository;
+    private final InquiryRepository inquiryRepository;
 
     public GetOwnerProfileRes getStoreProfile(Long userId) throws BaseException {
         try {
@@ -76,5 +77,20 @@ public class OwnerService {
     private User checkUserId(Long userId) throws IllegalArgumentException {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 ID"));
+    }
+
+    public List<GetOwnerInquiryRes> getInquiries(Long ownerId, InquiryType type) throws BaseException {
+        try{
+            List<Inquiry> inquiries = inquiryRepository.findByOwnerIdAndType(ownerId, type);
+            return inquiries.stream().map(i ->
+                    GetOwnerInquiryRes.builder()
+                            .inquiryId(i.getInquiryId())
+                            .content(i.getContent())
+                            .createdAt(i.getCreatedAt()).build())
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
     }
 }
