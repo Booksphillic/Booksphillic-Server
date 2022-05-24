@@ -3,6 +3,7 @@ package com.booksphillic.service.bookstore;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreReview;
 import com.booksphillic.domain.bookstore.BookstoreReviewImage;
+import com.booksphillic.domain.bookstore.Emoticon;
 import com.booksphillic.domain.user.User;
 import com.booksphillic.domain.user.UserPickupReviewCount;
 import com.booksphillic.repository.UserRepository;
@@ -57,7 +58,7 @@ public class BookstoreReviewService {
         }
     }
 
-    public StoreReviewRes postReview(Long storeId, Long userId, String content, List<String> urls) throws BaseException {
+    public StoreReviewRes postReview(Long storeId, Long userId, String content, String emoticon, List<String> urls) throws BaseException {
         try {
             Bookstore bookstore = bookstoreRepository.findById(storeId);
             if(bookstore == null) {
@@ -72,6 +73,7 @@ public class BookstoreReviewService {
                     .user(user)
                     .store(bookstore)
                     .content(content)
+                    .emoticon(checkEmoticon(emoticon))
                     .build();
             bookstoreReviewJpaRepositoryRepository.save(review);
             List<String> resultUrls = new ArrayList<>();
@@ -105,6 +107,14 @@ public class BookstoreReviewService {
         }
     }
 
+    public Emoticon checkEmoticon(String emoticon) {
+        for(Emoticon e : Emoticon.values()) {
+            if(emoticon.equals(e.getDescription()))
+                return e;
+        }
+        return null;
+    }
+
     public List<StoreReviewListRes> getReviews(Long storeId) throws BaseException{
         try {
             Bookstore bookstore = bookstoreRepository.findById(storeId);
@@ -125,6 +135,7 @@ public class BookstoreReviewService {
                                 .reviewId(review.getId())
                                 .username(review.getUser().getUsername())
                                 .content(review.getContent())
+                                .emoticon(review.getEmoticon().getDescription())
                                 .createdAt(review.getCreatedAt())
                                 .urls(urls)
                                 .build()

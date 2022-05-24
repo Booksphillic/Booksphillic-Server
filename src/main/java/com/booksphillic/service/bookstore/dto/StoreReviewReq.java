@@ -13,4 +13,5 @@ public class StoreReviewReq {
     private Long userId;
     private String content;
     private List<String> urls;
+    private String emoticon;
 }

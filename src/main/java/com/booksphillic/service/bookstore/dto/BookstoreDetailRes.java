@@ -22,9 +22,11 @@ public class BookstoreDetailRes {
     private String description; //소개글
     private String subtitle; //부제목
 
+    private String contact;
     private OperatingHours hours; //운영 시간
     private String address; //위치(주소)
     private String website; //웹사이트 url (인스타, 페북 등)
+    private String notice;
 
     private List<String> internalImgUrls; //책방 내부 이미지들
 
@@ -36,9 +38,11 @@ public class BookstoreDetailRes {
         profileImgUrl = bookstore.getProfileImgUrl();
         description = bookstore.getDescription();
         subtitle = bookstore.getSubtitle();
+        contact = bookstore.getContact();
         hours = bookstore.getHours();
         address = bookstore.getAddress().toString();
         website = bookstore.getWebsite();
+        notice = bookstore.getNotice();
         internalImgUrls = bookstoreImages.stream()
                 .map(bi -> bi.getUrl())
                 .collect(Collectors.toList());

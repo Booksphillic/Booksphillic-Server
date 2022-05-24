@@ -51,7 +51,7 @@ public class Bookstore {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "contact", length = 13)
+    @Column(name = "contact", length = 30)
     private String contact; // 전화번호
 
     @Column(name = "number_seats")
@@ -60,4 +60,6 @@ public class Bookstore {
     @Column(name = "facility")
     private String facility; // ex) 와이파이
 
+    @Column(name = "notice")
+    private String notice; // 공지사항
 }
