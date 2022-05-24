@@ -107,8 +107,9 @@ public class BookstoreController {
             Long userId = storeReviewReq.getUserId();
             String content = storeReviewReq.getContent();
             List<String> urls = storeReviewReq.getUrls();
+            String emoticon = storeReviewReq.getEmoticon();
 
-            StoreReviewRes storeReviewRes = bookstoreReviewService.postReview(storeId, userId, content, urls);
+            StoreReviewRes storeReviewRes = bookstoreReviewService.postReview(storeId, userId, content, emoticon, urls);
             return new BaseResponse<>(storeReviewRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
