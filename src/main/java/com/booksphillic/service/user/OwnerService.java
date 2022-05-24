@@ -17,11 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.booksphillic.domain.user.UserRoleType.GENERAL;
-import static com.booksphillic.domain.user.UserRoleType.OWNER;
 
 @Service
 @RequiredArgsConstructor
