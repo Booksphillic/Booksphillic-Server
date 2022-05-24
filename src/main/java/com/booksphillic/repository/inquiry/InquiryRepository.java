@@ -14,40 +14,30 @@ public class InquiryRepository {
 
     private final EntityManager em;
 
-    public List<Inquiry> findByUserId(Long userId, int offset, int size) {
-        String jpql = "select i from Inquiry i where i.ownerId = :userId or i.inquirerId = :userId";
+    public List<Inquiry> findByInquirerId(Long inquirerId, int offset, int size) {
+        String jpql = "select i from Inquiry i where i.inquirerId = :inquirerId";
         return em.createQuery(jpql, Inquiry.class)
-                .setParameter("userId", userId)
+                .setParameter("inquirerId", inquirerId)
                 .setFirstResult(offset)
                 .setMaxResults(size)
                 .getResultList();
     }
 
 
-    public List<Inquiry> findByUserIdAndType(Long userId, InquiryType type, int offset, int size) {
-        String jpql = "select i from Inquiry i where (i.ownerId = :userId or i.inquirerId = :userId) and i.type = :type";
+    public List<Inquiry> findByStoreIdAndType(Long storeId, InquiryType type, int offset, int size) {
+        String jpql = "select i from Inquiry i where i.storeId = :storeId and i.type = :type";
         return em.createQuery(jpql, Inquiry.class)
-                .setParameter("userId", userId)
+                .setParameter("storeId", storeId)
                 .setParameter("type", type)
                 .setFirstResult(offset)
                 .setMaxResults(size)
                 .getResultList();
     }
 
-    public List<Inquiry> findPublicByUserId(Long userId, int offset, int size) {
-        String jpql = "select i from Inquiry i where (i.ownerId = :userId or i.inquirerId = :userId) and i.isPublic = true";
+    public List<Inquiry> findPublicByStoreId(Long storeId, int offset, int size) {
+        String jpql = "select i from Inquiry i where i.storeId = :storeId and i.isPublic = true";
         return em.createQuery(jpql, Inquiry.class)
-                .setParameter("userId", userId)
-                .setFirstResult(offset)
-                .setMaxResults(size)
-                .getResultList();
-    }
-
-    public List<Inquiry> findPublicByUserIdAndType(Long userId, InquiryType type, int offset, int size) {
-        String jpql = "select i from Inquiry i where (i.ownerId = :userId or i.inquirerId = :userId) and i.type = :type and i.isPublic = true";
-        return em.createQuery(jpql, Inquiry.class)
-                .setParameter("userId", userId)
-                .setParameter("type", type)
+                .setParameter("storeId", storeId)
                 .setFirstResult(offset)
                 .setMaxResults(size)
                 .getResultList();

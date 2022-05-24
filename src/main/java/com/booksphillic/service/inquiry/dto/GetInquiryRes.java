@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 public class GetInquiryRes {
 
     private Long inquiryId;
+    private Long storeId;
     private Long inquirerId;
-    private Long ownerId;
     private LocalDateTime createdAt;
     private String title;
     private String content;
@@ -24,7 +24,7 @@ public class GetInquiryRes {
     public GetInquiryRes(Inquiry inquiry) {
         this.inquiryId = inquiry.getInquiryId();
         this.inquirerId = inquiry.getInquirerId();
-        this.ownerId = inquiry.getOwnerId();
+        this.storeId = inquiry.getStoreId();
         this.createdAt = inquiry.getCreatedAt();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
