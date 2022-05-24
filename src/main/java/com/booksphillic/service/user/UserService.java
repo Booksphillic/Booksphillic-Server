@@ -46,6 +46,14 @@ public class UserService {
                 throw new BaseException(BaseResponseCode.INVALID_BOOKSTOREID);
             }
             User user = checkUserId(userId);
+
+            // 이미 스크랩했으면 스크랩 취소 진행
+            Optional<Scrap> scrapedData = scrapRepository.findByUserIdAndStoreId(userId, storeId);
+            if(scrapedData.isPresent()) {
+                scrapRepository.delete(scrapedData.get());
+                return ;
+            }
+
             Scrap savedScrap = scrapRepository.save(Scrap.builder()
                     .userId(userId)
                     .storeId(storeId)
