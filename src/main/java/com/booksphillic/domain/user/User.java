@@ -61,4 +61,8 @@ public class User {
     @ColumnDefault("true")
     private boolean receiveEmail;
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 }
