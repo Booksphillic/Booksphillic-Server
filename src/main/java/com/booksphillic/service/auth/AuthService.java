@@ -9,16 +9,22 @@ import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.auth.dto.PostLoginRes;
+
+import com.booksphillic.util.MailUtil;
+import lombok.RequiredArgsConstructor;
 import com.booksphillic.service.auth.dto.PostSignupReq;
 import com.booksphillic.service.auth.dto.PostSignupRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +34,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final BookstoreRepository bookstoreRepository;
     private final JwtService jwtService;
+    private final MailUtil mailUtil;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -69,6 +76,21 @@ public class AuthService {
         return authorization.substring(7); // "Bearer " 이후부터 반환
     }
 
+
+    public void resetPassword(String email) throws BaseException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BaseException(BaseResponseCode.NON_EXISTENT_EMAIL));
+
+        String tempPassword = UUID.randomUUID().toString().substring(0, 10);
+
+        try {
+            user.updatePassword(passwordEncoder.encode(tempPassword));
+            userRepository.save(user);
+            mailUtil.sendResetPasswordEmail(tempPassword, user);
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
+    }
 
     // 회원가입
     @Transactional
@@ -115,7 +137,6 @@ public class AuthService {
 
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
         }
     }
 }

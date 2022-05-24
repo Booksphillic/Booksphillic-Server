@@ -7,6 +7,7 @@ import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.auth.AuthService;
 import com.booksphillic.service.auth.dto.PostLoginReq;
 import com.booksphillic.service.auth.dto.PostLoginRes;
+import com.booksphillic.service.auth.dto.ResetPasswordReq;
 import com.booksphillic.service.auth.dto.PostSignupReq;
 import com.booksphillic.service.auth.dto.PostSignupRes;
 import lombok.RequiredArgsConstructor;
@@ -96,9 +97,19 @@ public class AuthController {
         return EMAIL.matcher(email).find();
     }
 
+    // 비밀번호 찾기
+    @PostMapping("/reset-password")
+    public BaseResponse<Void> resetPassword(@RequestBody ResetPasswordReq resetPasswordReq) {
+        try {
+            authService.resetPassword(resetPasswordReq.getEmail());
+            return new BaseResponse<>(BaseResponseCode.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
     // 휴대폰번호 형식 검사
     private boolean isRegexPhoneNumber(String phoneNumber) {
         return PHONE_NUMBER.matcher(phoneNumber).find();
     }
-
 }
