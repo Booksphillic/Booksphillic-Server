@@ -79,14 +79,12 @@ public class OwnerService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 ID"));
     }
 
-    public List<GetOwnerInquiryRes> getInquiries(Long ownerId, InquiryType type) throws BaseException {
+    // 문의 조회 내역 조회
+    public List<GetOwnerInquiryRes> getInquiries(Long ownerId, InquiryType type, int page, int size) throws BaseException {
         try{
-            List<Inquiry> inquiries = inquiryRepository.findByOwnerIdAndType(ownerId, type);
-            return inquiries.stream().map(i ->
-                    GetOwnerInquiryRes.builder()
-                            .inquiryId(i.getInquiryId())
-                            .content(i.getContent())
-                            .createdAt(i.getCreatedAt()).build())
+            int offset = (page-1)*size;
+            List<Inquiry> inquiries = inquiryRepository.findByOwnerIdAndType(ownerId, type, offset, size);
+            return inquiries.stream().map(GetOwnerInquiryRes::new)
                     .collect(Collectors.toList());
 
         } catch (Exception e) {

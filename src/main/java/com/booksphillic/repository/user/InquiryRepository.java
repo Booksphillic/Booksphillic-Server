@@ -2,11 +2,36 @@ package com.booksphillic.repository.user;
 
 import com.booksphillic.domain.user.Inquiry;
 import com.booksphillic.domain.user.InquiryType;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
-public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
+@Repository
+@RequiredArgsConstructor
+public class InquiryRepository {
 
-    List<Inquiry> findByOwnerIdAndType(Long ownerId, InquiryType type);
+    private final EntityManager em;
+
+    public List<Inquiry> findByOwnerId(Long ownerId, int offset, int size) {
+        String jpql = "select i from Inquiry i where i.ownerId = :ownerId";
+        return em.createQuery(jpql, Inquiry.class)
+                .setParameter("ownerId", ownerId)
+                .setFirstResult(offset)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+
+    public List<Inquiry> findByOwnerIdAndType(Long ownerId, InquiryType type, int offset, int size) {
+        String jpql = "select i from Inquiry i where i.ownerId = :ownerId and i.type = :type";
+        return em.createQuery(jpql, Inquiry.class)
+                .setParameter("ownerId", ownerId)
+                .setParameter("type", type)
+                .setFirstResult(offset)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
 }

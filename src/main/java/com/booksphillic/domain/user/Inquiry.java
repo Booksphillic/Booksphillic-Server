@@ -15,14 +15,15 @@ public class Inquiry extends BaseEntity {
     @Id @GeneratedValue
     private Long inquiryId;
 
-    private Long ownerId;       // 사장님
+    private Long ownerId;           // 사장님
 
-    private Long inquirerId;    // 문의자
+    private Long inquirerId;        // 문의자
 
     @Lob
-    private String content;     // 문의 내용
+    private String content;         // 문의 내용
 
     @Enumerated(EnumType.STRING)
-    private InquiryType type;   // 서비스, 책방, 기타
+    private InquiryType type;       // 서비스, 책방, 기타
 
+    private InquiryStatus status;   // 대기, 완료
 }

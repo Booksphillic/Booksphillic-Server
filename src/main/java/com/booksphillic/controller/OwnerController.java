@@ -40,16 +40,16 @@ public class OwnerController {
 
     /***
      * 문의 내역 조회
+     * GET /api/owner/:ownerId/inquiry?type=&page=&size=
      */
     @GetMapping("/{ownerId}/inquiry")
-    public BaseResponse<List<GetOwnerInquiryRes>> getInquiries(@RequestHeader(required = false, name = "authorization") String authorization,
-                                                               @PathVariable Long ownerId,
-                                                               @RequestParam(name = "type") InquiryType type) {
+    public BaseResponse<List<GetOwnerInquiryRes>> getInquiries(@PathVariable Long ownerId,
+                                                               @RequestParam InquiryType type,
+                                                               @RequestParam(defaultValue = "1") int page,
+                                                               @RequestParam(defaultValue = "4") int size) {
 
         try {
-            String jwt = authService.validateBearerToken(authorization);
-            jwtService.validateJwt(jwt, ownerId);
-            List<GetOwnerInquiryRes> getOwnerInquiries = ownerService.getInquiries(ownerId, type);
+            List<GetOwnerInquiryRes> getOwnerInquiries = ownerService.getInquiries(ownerId, type, page, size);
             return new BaseResponse<>(getOwnerInquiries);
 
         } catch (BaseException e) {
