@@ -2,6 +2,8 @@ package com.booksphillic.service.bookstore;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
+import com.booksphillic.domain.bookstore.BookstoreTag;
+import com.booksphillic.repository.BookstoreTagRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
@@ -19,6 +21,7 @@ import java.util.List;
 public class BookstoreService {
 
     private final BookstoreRepository bookstoreRepository;
+    private final BookstoreTagRepository bookstoreTagRepository;
 
     @Transactional
     public List<Bookstore> findAll() throws BaseException {
@@ -49,7 +52,8 @@ public class BookstoreService {
             }
             else {
                 List<BookstoreImage> internalImages = bookstoreRepository.findBookstoreImgsById(id);
-                return new BookstoreDetailRes(bookstore, internalImages);
+                List<BookstoreTag> tags = bookstoreTagRepository.findByStoreId(id);
+                return new BookstoreDetailRes(bookstore, internalImages, tags);
             }
         }
         catch (Exception e) {

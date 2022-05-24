@@ -1,5 +1,6 @@
 package com.booksphillic.domain.user;
 
+import com.booksphillic.service.auth.dto.PostSignupReq;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -40,8 +41,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10)
-    @ColumnDefault("ACTIVE")
-    private UserStatus userStatus;
+    @Builder.Default
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Column(name = "profile_img")
     private String profileImgUrl;

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,10 +43,17 @@ public class UserService {
         try {
             Bookstore bookstore = bookstoreRepository.findById(storeId);
             if(bookstore == null) {
-                System.out.println("이거 널!!");
                 throw new BaseException(BaseResponseCode.INVALID_BOOKSTOREID);
             }
             User user = checkUserId(userId);
+
+            // 이미 스크랩했으면 스크랩 취소 진행
+            Optional<Scrap> scrapedData = scrapRepository.findByUserIdAndStoreId(userId, storeId);
+            if(scrapedData.isPresent()) {
+                scrapRepository.delete(scrapedData.get());
+                return ;
+            }
+
             Scrap savedScrap = scrapRepository.save(Scrap.builder()
                     .userId(userId)
                     .storeId(storeId)
@@ -154,9 +162,7 @@ public class UserService {
     }
 
     private User checkUserId(Long userId) throws IllegalArgumentException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(IllegalArgumentException::new);
-
-        return user;
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 ID"));
     }
 }

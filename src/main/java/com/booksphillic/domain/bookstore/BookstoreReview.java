@@ -33,4 +33,7 @@ public class BookstoreReview extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    private Emoticon emoticon;
+
 }
