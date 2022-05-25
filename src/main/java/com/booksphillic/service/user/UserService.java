@@ -39,7 +39,7 @@ public class UserService {
     private final UserPRCountRepository countRepository;
 
 
-    public void postScrap(Long storeId, Long userId) throws BaseException {
+    public boolean postScrap(Long storeId, Long userId) throws BaseException {
         try {
             Bookstore bookstore = bookstoreRepository.findById(storeId);
             if(bookstore == null) {
@@ -51,7 +51,7 @@ public class UserService {
             Optional<Scrap> scrapedData = scrapRepository.findByUserIdAndStoreId(userId, storeId);
             if(scrapedData.isPresent()) {
                 scrapRepository.delete(scrapedData.get());
-                return ;
+                return false;
             }
 
             Scrap savedScrap = scrapRepository.save(Scrap.builder()
@@ -60,6 +60,8 @@ public class UserService {
                     .build());
 
             if(savedScrap == null) throw new BaseException(BaseResponseCode.SCRAP_ERROR); //스크랩 실패
+
+            return true;
         }
         catch (NullPointerException e) {
             log.error(e.getMessage());

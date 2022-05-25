@@ -22,11 +22,11 @@ public class UserController {
      * 책방 스크랩하기
      */
     @PostMapping("/{storeId}/scrap")
-    public BaseResponse postScrap(@PathVariable Long storeId, @RequestBody PostScrapReq postScrapReq) {
+    public BaseResponse<Boolean> postScrap(@PathVariable Long storeId, @RequestBody PostScrapReq postScrapReq) {
         try {
             Long userId = postScrapReq.getUserId();
-            userService.postScrap(storeId, userId);
-            return new BaseResponse(BaseResponseCode.SUCCESS);
+            boolean result = userService.postScrap(storeId, userId);
+            return new BaseResponse(result);
         }
         catch(BaseException e) {
             return new BaseResponse(e.getCode());
