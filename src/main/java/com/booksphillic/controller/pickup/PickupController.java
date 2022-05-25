@@ -73,15 +73,15 @@ public class PickupController {
      * @return
      */
     @GetMapping("/list")
-    public BaseResponse<List<BookstoreListRes>> getStoreListByDistrict(@RequestParam(name = "district") String district) {
+    public BaseResponse<List<PickupBookstoreListRes>> getStoreListByDistrict(@RequestParam(name = "district") String district) {
         try {
             List<Bookstore> bookstores;
-            List<BookstoreListRes> result;
+            List<PickupBookstoreListRes> result;
 
             if (checkDistrict(district)) {
                 bookstores = pickupService.findByDistrict(district);
                 result = bookstores.stream()
-                        .map(BookstoreListRes::new)
+                        .map(PickupBookstoreListRes::new)
                         .collect(Collectors.toList());
                 return new BaseResponse<>(result);
             } else {
