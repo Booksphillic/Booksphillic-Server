@@ -1,6 +1,8 @@
 package com.booksphillic.domain.pickup;
 
 import com.booksphillic.domain.BaseEntity;
+import com.booksphillic.domain.bookstore.Emoticon;
+import com.booksphillic.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +21,18 @@ public class PickupReview extends BaseEntity {
     @Column(name = "pickup_review_id")
     private Long id;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private Long pickupId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pickup_id")
+    private Pickup pickup;
 
     @Lob
     @Column(nullable = false)
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    private Emoticon emoticon;
 }

@@ -17,7 +17,16 @@ public class PickupRepository {
 
     private final EntityManager em;
 
-    public Bookstore findById(Long id) {
+    public Pickup findById(Long id) {
+        try {
+            return em.find(Pickup.class, id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public Bookstore findByStoreId(Long id) {
         return em.find(Bookstore.class, id);
     }
 

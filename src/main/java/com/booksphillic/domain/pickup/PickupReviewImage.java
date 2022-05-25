@@ -18,7 +18,9 @@ public class PickupReviewImage {
     @Column(name = "pickup_reivew_image_id")
     private Long id;
 
-    private Long pickupReviewId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pickup_review_id")
+    private PickupReview pickupReview;
 
     @Column(nullable = false)
     private String url;

@@ -16,6 +16,7 @@ public enum BaseResponseCode {
     INVALID_BOOKSTOREID(2100, "존재하지 않는 서점입니다."),
     IMAGE_UPLOAD_ERROR(2101, "파일 변환 중 에러가 발생했습니다."),
     SCRAP_ERROR(2102, "스크랩에 실패하였습니다. 다시 시도해주세요"),
+    INVALID_PICKUP_ID(2103, "존재하지 않은 픽업입니다."),
 
     INVALID_FORMATTED_EMAIL(2200, "올바른 이메일 형식이 아닙니다."),
     NON_EXISTENT_EMAIL(2201, "존재하지 않는 이메일입니다."),

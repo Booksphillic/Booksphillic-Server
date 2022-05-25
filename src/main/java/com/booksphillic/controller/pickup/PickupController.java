@@ -9,13 +9,12 @@ import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.bookstore.dto.BookstoreListRes;
+import com.booksphillic.service.pickup.PickupReviewService;
 import com.booksphillic.service.pickup.PickupService;
-import com.booksphillic.service.pickup.dto.ApplyPickupReq;
-import com.booksphillic.service.pickup.dto.ApplyPickupRes;
-import com.booksphillic.service.pickup.dto.PickupListRes;
-import com.booksphillic.service.pickup.dto.PickupBookstoreDetailRes;
+import com.booksphillic.service.pickup.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 public class PickupController {
 
     private final PickupService pickupService;
-
+    private final PickupReviewService pickupReviewService;
     private final PickupRepository pickupRepository;
 
     @PostMapping("/apply")
@@ -115,4 +114,37 @@ public class PickupController {
         }
     }
 
+
+    /**
+     * 미스터리북 리뷰 작성 이미지 등록 (최대 3장)
+     */
+    @PostMapping("/review/images")
+    public BaseResponse<List<String>> postPickupReviewImages(@RequestParam List<MultipartFile> files) {
+        try {
+            List<String> urls = pickupReviewService.postPickupReviewImages(files);
+            return new BaseResponse<>(urls);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
+
+    /**
+     * 미스터리북 리뷰 등록 (이미지 url 포함)
+     */
+    @PostMapping("/{pickupId}/review")
+    public BaseResponse<PickupReviewRes> postPickupReview(@PathVariable Long pickupId, @RequestBody PickupReviewReq pickupReviewReq) {
+        try {
+            Long userId = pickupReviewReq.getUserId();
+            String content = pickupReviewReq.getContent();
+            List<String> urls = pickupReviewReq.getUrls();
+            String emoticon = pickupReviewReq.getEmoticon();
+
+            PickupReviewRes pickupReviewRes = pickupReviewService.postReview(pickupId, userId, content, emoticon, urls);
+            return new BaseResponse<>(pickupReviewRes);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+
+
+    }
 }

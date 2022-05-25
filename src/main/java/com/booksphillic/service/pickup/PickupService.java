@@ -95,7 +95,7 @@ public class PickupService {
 
     public PickupBookstoreDetailRes findById(Long id) throws BaseException {
         try {
-            Bookstore bookstore = pickupRepository.findById(id);
+            Bookstore bookstore = pickupRepository.findByStoreId(id);
 
             if (bookstore == null) {
                 throw new BaseException(BaseResponseCode.INVALID_BOOKSTOREID);
