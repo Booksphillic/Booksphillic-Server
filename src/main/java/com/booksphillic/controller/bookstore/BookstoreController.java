@@ -75,8 +75,25 @@ public class BookstoreController {
     }
 
     /**
-     * 메인화면 책방 프로필(이름, 주소, 대표사진, 소개글?)
+     * 메인화면 책방 프로필(이름, 부제목, 대표 이미지, 소개글, 스크랩)
      */
+    @GetMapping("/homeData")
+    public BaseResponse<BookstoreHomeDetailRes> getHomeDetail(@RequestParam(name="storeId") Long storeId, @RequestParam(name="userId") Long userId) {
+        try {
+            BookstoreDetailRes data = bookstoreService.findById(storeId, userId);
+
+            return new BaseResponse<>(BookstoreHomeDetailRes.builder()
+                    .storeId(data.getStoreId())
+                    .name(data.getName())
+                    .subtitle(data.getSubtitle())
+                    .profileImgUrl(data.getProfileImgUrl())
+                    .description(data.getDescription())
+                    .scraped(data.isScraped())
+                    .build());
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
+    }
 
 
     /**
