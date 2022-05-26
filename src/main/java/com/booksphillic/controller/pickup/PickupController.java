@@ -144,7 +144,15 @@ public class PickupController {
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
+    }
 
-
+    @GetMapping("/{pickupId}/reviewList")
+    public BaseResponse<List<PickupReviewListRes>> getPickupReviews(@PathVariable Long pickupId) {
+        try {
+            List<PickupReviewListRes> result = pickupReviewService.getPickupReviews(pickupId);
+            return new BaseResponse<>(result);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getCode());
+        }
     }
 }

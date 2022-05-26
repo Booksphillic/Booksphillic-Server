@@ -14,6 +14,7 @@ import com.booksphillic.repository.user.UserPRCountRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.awsS3.FileProcessService;
+import com.booksphillic.service.pickup.dto.PickupReviewListRes;
 import com.booksphillic.service.pickup.dto.PickupReviewRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -113,5 +115,41 @@ public class PickupReviewService {
                 return e;
         }
         return null;
+    }
+
+    public List<PickupReviewListRes> getPickupReviews(Long pickupId) throws BaseException {
+        try {
+            Pickup pickup = pickupRepository.findById(pickupId);
+
+            if (pickup == null) {
+                throw new BaseException(BaseResponseCode.INVALID_PICKUP_ID);
+            }
+
+            List<PickupReviewListRes> results = new ArrayList<>();
+            List<PickupReview> reviews = pickupReviewJpaRepository.findByPickup(pickup);
+
+            for (PickupReview review : reviews) {
+                List<String> urls = pickupReviewImageJpaRepository.findByPickupReview(review).stream()
+                        .map(img -> img.getUrl())
+                        .collect(Collectors.toList());
+
+                results.add(
+                        PickupReviewListRes.builder()
+                                .reviewId(review.getId())
+                                .username(review.getUser().getUsername())
+                                .content(review.getContent())
+                                .emoticon(review.getEmoticon().getDescription())
+                                .createdAt(review.getCreatedAt())
+                                .urls(urls)
+                                .build()
+                );
+            }
+
+            return results;
+
+        } catch (BaseException e) {
+            log.error(e.getMessage());
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
     }
 }
