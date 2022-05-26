@@ -3,9 +3,9 @@ package com.booksphillic.service.bookstore;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.domain.bookstore.BookstoreTag;
-import com.booksphillic.domain.user.Scrap;
 import com.booksphillic.domain.user.User;
-import com.booksphillic.repository.BookstoreTagRepository;
+import com.booksphillic.repository.tag.BookstoreTagJpaRepository;
+import com.booksphillic.repository.tag.BookstoreTagRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.repository.user.ScrapRepository;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class BookstoreService {
 
     private final BookstoreRepository bookstoreRepository;
-    private final BookstoreTagRepository bookstoreTagRepository;
+    private final BookstoreTagJpaRepository bookstoreTagJpaRepository;
     private final ScrapRepository scrapRepository;
     private final UserRepository userRepository;
 
@@ -86,7 +86,7 @@ public class BookstoreService {
             }
 
             List<BookstoreImage> internalImages = bookstoreRepository.findBookstoreImgsById(id);
-            List<BookstoreTag> tags = bookstoreTagRepository.findByStoreId(id);
+            List<BookstoreTag> tags = bookstoreTagJpaRepository.findByStoreId(id);
             boolean isScraped = false;
             if( (scrapRepository.findByUserIdAndStoreId(userId, bookstore.getId())).isPresent()) {
                 isScraped = true;
