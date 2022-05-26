@@ -13,6 +13,7 @@ public class PickupReviewRes {
 
     private Long reviewId;
     private String username;
+    private String content;
+    private String emoticon;
     private List<String> urls;
-
 }
