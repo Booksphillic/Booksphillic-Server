@@ -48,7 +48,7 @@ public class PickupService {
             Pickup pickup = Pickup.builder()
                     .userId(userId)
                     .storeId(storeId)
-                    .bookGenre(BookGenre.valueOf(bookGenre))
+                    .bookGenre(checkBookGenre(bookGenre))
                     .pickupDate(pickupDate)
                     .pickupStatus(PickupStatus.NEW)
                     .requirements(requirements)
@@ -59,7 +59,7 @@ public class PickupService {
             return ApplyPickupRes.builder()
                     .bookstoreName(bookstoreRepository.findById(storeId).getName())
                     .pickupDate(pickupDate)
-                    .bookGenres(BookGenre.valueOf(bookGenre))
+                    .bookGenres(checkBookGenre(bookGenre))
                     .requirements(requirements).build();
 
         } catch (BaseException e) {
@@ -122,6 +122,15 @@ public class PickupService {
             log.error(e.getMessage());
             throw new BaseException(BaseResponseCode.DATABASE_ERROR);
         }
+    }
+
+    private BookGenre checkBookGenre(String genre) {
+        for(BookGenre bg : BookGenre.values()) {
+            if(genre.equals(bg.getKo())){
+                return bg;
+            }
+        }
+        return null;
     }
 
 }

@@ -88,11 +88,6 @@ public class PickupReviewService {
                 resultUrls.add(url);
             }
 
-            UserPickupReviewCount count = countRepository.findByUserId(userId).get();
-            count.setReviewCount(count.getPickupCount()+1);
-            count.setPhillic(count.getPhillic()+10);
-            countRepository.save(count);
-
             return PickupReviewRes.builder()
                     .reviewId(review.getId())
                     .username(user.getUsername())
