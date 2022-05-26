@@ -1,6 +1,5 @@
 package com.booksphillic.service.pickup.dto;
 
-import com.booksphillic.domain.bookstore.Address;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.OperatingHours;
 import lombok.AllArgsConstructor;
@@ -17,8 +16,9 @@ public class PickupBookstoreListRes {
     private String profileImgUrl;
     private String subtitle;
     private String district;
-    private Address address;
+    private String address;
     private String contact;
+    private String website;
     private OperatingHours hours;
 
     public PickupBookstoreListRes(Bookstore bookstore) {
@@ -27,8 +27,9 @@ public class PickupBookstoreListRes {
         profileImgUrl = bookstore.getProfileImgUrl();
         subtitle = bookstore.getSubtitle();
         district = bookstore.getAddress().getDistrict().getKo().substring(0, 2);
-        address = bookstore.getAddress();
+        address = bookstore.getAddress().toString();
         contact = bookstore.getContact();
+        website = bookstore.getWebsite();
         hours = bookstore.getHours();
     }
 

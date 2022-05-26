@@ -27,7 +27,6 @@ import java.util.List;
 public class PickupService {
 
     private final PickupRepository pickupRepository;
-
     private final UserRepository userRepository;
     private final PickupJpaRepository pickupJpaRepository;
     private final BookstoreRepository bookstoreRepository;
