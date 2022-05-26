@@ -137,6 +137,7 @@ public class AuthService {
 
         } catch (Exception e) {
             log.error(e.getMessage());
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
         }
     }
 }
