@@ -1,13 +1,11 @@
 package com.booksphillic.service.pickup.dto;
 
-import com.booksphillic.domain.pickup.BookGenre;
 import com.booksphillic.domain.pickup.PickupStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

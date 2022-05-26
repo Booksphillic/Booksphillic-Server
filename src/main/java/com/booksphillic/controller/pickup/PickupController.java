@@ -2,6 +2,7 @@ package com.booksphillic.controller.pickup;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
+import com.booksphillic.domain.bookstore.Tag;
 import com.booksphillic.domain.pickup.Pickup;
 import com.booksphillic.domain.pickup.PickupStatus;
 import com.booksphillic.domain.user.UserPickupReviewCount;
@@ -14,6 +15,7 @@ import com.booksphillic.service.bookstore.dto.BookstoreListRes;
 import com.booksphillic.service.pickup.PickupReviewService;
 import com.booksphillic.service.pickup.PickupService;
 import com.booksphillic.service.pickup.dto.*;
+import com.booksphillic.service.tag.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +33,7 @@ public class PickupController {
     private final PickupReviewService pickupReviewService;
     private final PickupRepository pickupRepository;
     private final UserPRCountRepository countRepository;
+    private final TagService tagService;
 
     @PostMapping("/apply")
     public BaseResponse<ApplyPickupRes> applyPickup(@RequestBody ApplyPickupReq applyPickupReq) {
@@ -84,9 +87,16 @@ public class PickupController {
 
             if (checkDistrict(district)) {
                 bookstores = pickupService.findByDistrict(district);
-                result = bookstores.stream()
-                        .map(PickupBookstoreListRes::new)
-                        .collect(Collectors.toList());
+                result = bookstores.stream().map(store -> {
+                    try {
+                        List<Tag> tags = tagService.getStoreTags(store.getId());
+                        return new PickupBookstoreListRes(store, tags);
+                    } catch (BaseException e) {
+                        e.printStackTrace();
+                        return null;
+                    }}
+                ).collect(Collectors.toList());
+
                 return new BaseResponse<>(result);
             } else {
                 return new BaseResponse<>(BaseResponseCode.INVALID_DISTRICT);
