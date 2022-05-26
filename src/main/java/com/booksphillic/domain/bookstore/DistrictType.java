@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum DistrictType {
 
     GANGNAM("강남구", "GANGNAM"),
-    GANGDONG("강북구", "GANGDONG"),
+    GANGDONG("강동구", "GANGDONG"),
+    GANGBUK("강북구", "GANGBUK"),
     GANGSEO("강서구", "GANGSEO"),
     GWANAK("관악구", "GWANAK"),
     GWANGJIN("광진구", "GWANGJIN"),
