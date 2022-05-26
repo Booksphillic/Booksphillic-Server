@@ -4,7 +4,9 @@ import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.DistrictType;
 import com.booksphillic.domain.pickup.Pickup;
 import com.booksphillic.domain.pickup.PickupStatus;
+import com.booksphillic.domain.user.UserPickupReviewCount;
 import com.booksphillic.repository.pickup.PickupRepository;
+import com.booksphillic.repository.user.UserPRCountRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponse;
 import com.booksphillic.response.BaseResponseCode;
@@ -28,6 +30,7 @@ public class PickupController {
     private final PickupService pickupService;
     private final PickupReviewService pickupReviewService;
     private final PickupRepository pickupRepository;
+    private final UserPRCountRepository countRepository;
 
     @PostMapping("/apply")
     public BaseResponse<ApplyPickupRes> applyPickup(@RequestBody ApplyPickupReq applyPickupReq) {
@@ -41,6 +44,10 @@ public class PickupController {
 
             ApplyPickupRes applyPickupRes = pickupService.postPickup(userId, storeId, bookGenre, pickupDate, status, requirements);
 
+            UserPickupReviewCount count = countRepository.findByUserId(userId).get();
+            count.setPickupCount(count.getPickupCount()+1);
+            count.setPhillic(count.getPhillic()+10);
+            countRepository.save(count);
             return new BaseResponse<>(applyPickupRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
