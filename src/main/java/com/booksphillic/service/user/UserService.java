@@ -85,6 +85,7 @@ public class UserService {
                 results.add(GetScrapRes.builder()
                         .scrapId(scrap.getId())
                         .bookstore(bookstore.getName())
+                        .subtitle(bookstore.getSubtitle())
                         .profileImgUrl(bookstore.getProfileImgUrl())
                         .tags(storeTags.stream()
                                 .map(tag -> tag.getTag().getName())
