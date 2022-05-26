@@ -89,7 +89,7 @@ public class PickupReviewService {
             }
 
             UserPickupReviewCount count = countRepository.findByUserId(userId).get();
-            count.setReviewCount(count.getReviewCount()+1);
+            count.setReviewCount(count.getPickupCount()+1);
             count.setPhillic(count.getPhillic()+10);
             countRepository.save(count);
 
@@ -97,6 +97,8 @@ public class PickupReviewService {
                     .reviewId(review.getId())
                     .username(user.getUsername())
                     .urls(resultUrls)
+                    .content(review.getContent())
+                    .emoticon(review.getEmoticon().getDescription())
                     .build();
 
         } catch (IllegalArgumentException iae) {
