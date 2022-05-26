@@ -19,8 +19,8 @@ public class PostRepository {
     public List<GetPostsRes> selectSameDistrictPosts(String district, int offset, int limit) {
         String sql = "SELECT p.post_id as postId, p.category as category, p.title as title, p.content1 as content, " +
                 "b.district as district, b.profile_img as storeImgUrl, e.name as editorName FROM post p " +
-                "JOIN bookstore b on p.store_id = b.store_id " +
-                "JOIN editor e on p.editor_id = e.editor_id " +
+                "LEFT JOIN bookstore b on p.store_id = b.store_id " +
+                "LEFT JOIN editor e on p.editor_id = e.editor_id " +
                 "WHERE b.district = ?" +
                 "ORDER BY p.created_at DESC LIMIT ?, ?";
 
@@ -31,8 +31,8 @@ public class PostRepository {
     public List<GetPostsRes> selectOtherDistrictPosts(String district, int offset, int limit) {
         String sql = "SELECT p.post_id as postId, p.category as category, p.title as title, p.content1 as content, " +
                 "b.district as district, b.profile_img as storeImgUrl, e.name as editorName FROM post p " +
-                "JOIN bookstore b on p.store_id = b.store_id " +
-                "JOIN editor e on p.editor_id = e.editor_id " +
+                "LEFT JOIN bookstore b on p.store_id = b.store_id " +
+                "LEFT JOIN editor e on p.editor_id = e.editor_id " +
                 "WHERE b.district <> ?" +
                 "ORDER BY p.created_at DESC LIMIT ?, ?";
 
@@ -43,8 +43,8 @@ public class PostRepository {
     public List<GetPostsRes> selectAllDistrictPosts(int offset, int limit) {
         String sql = "SELECT p.post_id as postId, p.category as category, p.title as title, p.content1 as content, " +
                 "b.district as district, b.profile_img as storeImgUrl, e.name as editorName FROM post p " +
-                "JOIN bookstore b on p.store_id = b.store_id " +
-                "JOIN editor e on p.editor_id = e.editor_id " +
+                "LEFT JOIN bookstore b on p.store_id = b.store_id " +
+                "LEFT JOIN editor e on p.editor_id = e.editor_id " +
                 "ORDER BY p.created_at DESC LIMIT ?, ?";
 
         Object[] params = new Object[]{offset, limit};
