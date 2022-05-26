@@ -54,12 +54,9 @@ public class PickupController {
     public BaseResponse<List<PickupListRes>> getPickupByUser(@PathVariable Long userId) {
 
         try {
-            List<Pickup> pickups = pickupService.getPickupByUser(userId);
-            List<PickupListRes> result = pickups.stream()
-                    .map(PickupListRes::new)
-                    .collect(Collectors.toList());
+            List<PickupListRes> pickups = pickupService.getPickupByUser(userId);
 
-            return new BaseResponse<>(result);
+            return new BaseResponse<>(pickups);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
@@ -144,15 +141,7 @@ public class PickupController {
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
+
     }
 
-    @GetMapping("/{pickupId}/reviewList")
-    public BaseResponse<List<PickupReviewListRes>> getPickupReviews(@PathVariable Long pickupId) {
-        try {
-            List<PickupReviewListRes> result = pickupReviewService.getPickupReviews(pickupId);
-            return new BaseResponse<>(result);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getCode());
-        }
-    }
 }

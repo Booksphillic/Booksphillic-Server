@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface PickupReviewImageJpaRepository extends JpaRepository<PickupReviewImage, Long> {
 
     Optional<PickupReviewImage> findById(Long id);
-
-    List<PickupReviewImage> findByPickupReview(PickupReview pickupReview);
 }

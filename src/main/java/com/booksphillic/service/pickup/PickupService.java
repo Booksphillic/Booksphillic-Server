@@ -13,12 +13,14 @@ import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.pickup.dto.ApplyPickupRes;
 import com.booksphillic.service.pickup.dto.PickupBookstoreDetailRes;
+import com.booksphillic.service.pickup.dto.PickupListRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,9 +75,24 @@ public class PickupService {
         return user;
     }
 
-    public List<Pickup> getPickupByUser(Long userId) throws BaseException {
+    public List<PickupListRes> getPickupByUser(Long userId) throws BaseException {
         try {
-            return pickupRepository.findByUserId(userId);
+            List<PickupListRes> result = new ArrayList<>();
+
+            List<Pickup> pickupList = pickupRepository.findByUserId(userId);
+            for(Pickup pickup : pickupList) {
+                Bookstore store = bookstoreRepository.findById(pickup.getStoreId());
+                result.add(PickupListRes.builder()
+                        .pickupId(pickup.getId())
+                        .storeId(pickup.getStoreId())
+                        .bookstore(store.getName())
+                        .createdAt(pickup.getCreatedAt())
+                        .bookGenre(pickup.getBookGenre())
+                        .pickupStatus(pickup.getPickupStatus())
+                        .build()
+                );
+            }
+            return result;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BaseException(BaseResponseCode.DATABASE_ERROR);

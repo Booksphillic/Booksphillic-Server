@@ -177,6 +177,7 @@ public class UserService {
 
             List<GetReviewRes> result = new ArrayList<>();
 
+            // 책방 리뷰 조회
             List<BookstoreReview> storeReviewList = reviewRepository.findByUser(user);
 
             for(BookstoreReview review : storeReviewList) {
@@ -192,6 +193,7 @@ public class UserService {
                         .build()
                 );
             }
+
             return result;
         } catch (IllegalArgumentException e) {
             log.error(e.getMessage());
