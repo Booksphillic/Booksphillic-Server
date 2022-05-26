@@ -141,6 +141,7 @@ public class PickupController {
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
         }
+
     }
 
 }

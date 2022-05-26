@@ -7,7 +7,8 @@ import com.booksphillic.domain.bookstore.BookstoreTag;
 import com.booksphillic.domain.user.Scrap;
 import com.booksphillic.domain.user.User;
 import com.booksphillic.domain.user.UserPickupReviewCount;
-import com.booksphillic.repository.BookstoreTagRepository;
+import com.booksphillic.repository.tag.BookstoreTagJpaRepository;
+import com.booksphillic.repository.tag.BookstoreTagRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.*;
 import com.booksphillic.repository.user.ScrapRepository;
@@ -36,9 +37,9 @@ public class UserService {
 
     private final ScrapRepository scrapRepository;
     private final BookstoreRepository bookstoreRepository;
+    private final BookstoreTagJpaRepository bookstoreTagJpaRepository;
     private final BookstoreReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
-    private final BookstoreTagRepository tagRepository;
     private final UserRepository userRepository;
     private final FileProcessService fileProcessService;
     private final UserPRCountRepository countRepository;
@@ -85,7 +86,7 @@ public class UserService {
             List<GetScrapRes> results = new ArrayList<>();
             for(Scrap scrap : scraps) {
                 Bookstore bookstore = bookstoreRepository.findById(scrap.getStoreId());
-                List<BookstoreTag> storeTags = tagRepository.findByStoreId(scrap.getStoreId());
+                List<BookstoreTag> storeTags = bookstoreTagJpaRepository.findByStoreId(scrap.getStoreId());
                 List<String> tags = storeTags.stream()
                         .map(t -> '#' + t.getTag().getName())
                         .collect(Collectors.toList());

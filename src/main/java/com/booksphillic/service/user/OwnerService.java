@@ -5,7 +5,7 @@ import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.BookstoreImage;
 import com.booksphillic.domain.bookstore.BookstoreTag;
 import com.booksphillic.domain.user.User;
-import com.booksphillic.repository.BookstoreTagRepository;
+import com.booksphillic.repository.tag.BookstoreTagJpaRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.response.BaseException;
@@ -26,7 +26,7 @@ public class OwnerService {
 
     private final UserRepository userRepository;
     private final BookstoreRepository bookstoreRepository;
-    private final BookstoreTagRepository tagRepository;
+    private final BookstoreTagJpaRepository tagRepository;
 
     public GetOwnerProfileRes getStoreProfile(Long userId) throws BaseException {
         try {
