@@ -5,7 +5,8 @@ import com.booksphillic.domain.bookstore.BookstoreTag;
 import com.booksphillic.domain.user.Scrap;
 import com.booksphillic.domain.user.User;
 import com.booksphillic.domain.user.UserPickupReviewCount;
-import com.booksphillic.repository.BookstoreTagRepository;
+import com.booksphillic.repository.tag.BookstoreTagJpaRepository;
+import com.booksphillic.repository.tag.BookstoreTagRepository;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.repository.user.ScrapRepository;
@@ -33,7 +34,7 @@ public class UserService {
 
     private final ScrapRepository scrapRepository;
     private final BookstoreRepository bookstoreRepository;
-    private final BookstoreTagRepository tagRepository;
+    private final BookstoreTagJpaRepository bookstoreTagJpaRepository;
     private final UserRepository userRepository;
     private final FileProcessService fileProcessService;
     private final UserPRCountRepository countRepository;
@@ -80,7 +81,7 @@ public class UserService {
             List<GetScrapRes> results = new ArrayList<>();
             for(Scrap scrap : scraps) {
                 Bookstore bookstore = bookstoreRepository.findById(scrap.getStoreId());
-                List<BookstoreTag> storeTags = tagRepository.findByStoreId(scrap.getStoreId());
+                List<BookstoreTag> storeTags = bookstoreTagJpaRepository.findByStoreId(scrap.getStoreId());
                 //서점 이름 , 서점 소제목 , 서점 태그 리스트 , 서점 대표 이미지
                 results.add(GetScrapRes.builder()
                         .scrapId(scrap.getId())

@@ -4,12 +4,14 @@ import com.booksphillic.domain.board.Editor;
 import com.booksphillic.domain.board.Post;
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.repository.*;
+import com.booksphillic.repository.tag.BookstoreTagJpaRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.board.dto.BookstoreInfo;
 import com.booksphillic.service.board.dto.GetPostRes;
 import com.booksphillic.service.board.dto.GetPostsRes;
 import com.booksphillic.service.editor.dto.GetEditorPostsRes;
+import com.booksphillic.service.tag.dto.GetStorePostsRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final PostJpaRepository postJpaRepository;
-    private final BookstoreTagRepository bookstoreTagRepository;
+    private final BookstoreTagJpaRepository bookstoreTagJpaRepository;
     private final PostImageRepository postImageRepository;
 
     // 우리동네, 다른동네 글 리스트 조회
@@ -73,7 +75,7 @@ public class PostService {
             Editor editor = post.getEditor();
 
             // 태그 조회
-            List<String> tags = bookstoreTagRepository.findByStoreId(bookstore.getId())
+            List<String> tags = bookstoreTagJpaRepository.findByStoreId(bookstore.getId())
                     .stream().map(bt -> bt.getTag().getName()).collect(Collectors.toList());
 
             // 책방의 공간들 이미지 조회
@@ -121,5 +123,14 @@ public class PostService {
         }
     }
 
+    // 책방 글 조회
+    public List<GetStorePostsRes> getStorePosts(Long storeId) throws BaseException {
+        try{
+            return postRepository.selectStorePosts(storeId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
+    }
 
 }
