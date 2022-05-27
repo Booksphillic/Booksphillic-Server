@@ -20,6 +20,7 @@ public class PickupListRes {
     private PickupStatus pickupStatus;
     private String requirements;
     private LocalDateTime createdAt;
+    private boolean review; // 해당 픽업에 리뷰를 작성했는지 아닌지
 
     public PickupListRes(Pickup pickup) {
         pickupId = pickup.getId();
@@ -28,6 +29,7 @@ public class PickupListRes {
         pickupStatus = pickup.getPickupStatus();
         requirements = pickup.getRequirements();
         createdAt = pickup.getCreatedAt();
+
     }
 
 }
