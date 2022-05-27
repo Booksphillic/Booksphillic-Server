@@ -17,6 +17,6 @@ public class PickupReviewListRes {
     private String content;
     private String emoticon;
     private LocalDateTime createdAt;
-    private List<String> urls;
+    private String url;
 
 }

@@ -9,6 +9,7 @@ import com.booksphillic.domain.user.UserPickupReviewCount;
 import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.pickup.PickupRepository;
 import com.booksphillic.repository.pickup.PickupReviewImageJpaRepository;
+import com.booksphillic.repository.pickup.PickupReviewImageRepository;
 import com.booksphillic.repository.pickup.PickupReviewJpaRepository;
 import com.booksphillic.repository.user.UserPRCountRepository;
 import com.booksphillic.response.BaseException;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +37,7 @@ public class PickupReviewService {
     private final PickupRepository pickupRepository;
     private final PickupReviewJpaRepository pickupReviewJpaRepository;
     private final PickupReviewImageJpaRepository pickupReviewImageJpaRepository;
+    private final PickupReviewImageRepository pickupReviewImageRepository;
     private final UserRepository userRepository;
     private final UserPRCountRepository countRepository;
 
@@ -114,14 +117,13 @@ public class PickupReviewService {
         return null;
     }
 
+    /*
     public List<PickupReviewListRes> getPickupReviews(Long pickupId) throws BaseException {
         try {
             Pickup pickup = pickupRepository.findById(pickupId);
-
             if (pickup == null) {
                 throw new BaseException(BaseResponseCode.INVALID_PICKUP_ID);
             }
-
             List<PickupReviewListRes> results = new ArrayList<>();
             List<PickupReview> reviews = pickupReviewJpaRepository.findByPickup(pickup);
 
@@ -129,7 +131,6 @@ public class PickupReviewService {
                 List<String> urls = pickupReviewImageJpaRepository.findByPickupReview(review).stream()
                         .map(img -> img.getUrl())
                         .collect(Collectors.toList());
-
                 results.add(
                         PickupReviewListRes.builder()
                                 .reviewId(review.getId())
@@ -141,10 +142,49 @@ public class PickupReviewService {
                                 .build()
                 );
             }
+            return results;
+        } catch (BaseException e) {
+            log.error(e.getMessage());
+            throw new BaseException(BaseResponseCode.DATABASE_ERROR);
+        }
+    }
+     */
+
+    public List<PickupReviewListRes> getPickupReviewsByBookstore(Long storeId) throws BaseException {
+        try {
+            List<Pickup> pickups = pickupRepository.findPickupByStoreId(storeId);
+
+            if(pickups.size()==0) {
+                return new ArrayList<>();
+            }
+
+            List<PickupReviewListRes> results = new ArrayList<>();
+
+            List<PickupReview> reviews = new ArrayList<>();
+            for(Pickup pickup : pickups) {
+                Optional<PickupReview> pickupReview = pickupReviewJpaRepository.findByPickup(pickup);
+                if(pickupReview.isPresent())
+                    reviews.add(pickupReview.get());
+            }
+
+            for (PickupReview review : reviews) {
+                // 무조건 이미지 1장 이상 있다고 가정
+                String url = (pickupReviewImageRepository.findByPickupReview(review)).get(0).getUrl();
+
+                results.add(
+                        PickupReviewListRes.builder()
+                                .reviewId(review.getId())
+                                .username(review.getUser().getUsername())
+                                .content(review.getContent())
+                                .emoticon(review.getEmoticon().getDescription())
+                                .createdAt(review.getCreatedAt())
+                                .url(url)
+                                .build()
+                );
+            }
 
             return results;
-
-        } catch (BaseException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new BaseException(BaseResponseCode.DATABASE_ERROR);
         }

@@ -151,10 +151,20 @@ public class PickupController {
 
     }
 
-    @GetMapping("/{pickupId}/reviewList")
-    public BaseResponse<List<PickupReviewListRes>> getPickupReviews(@PathVariable Long pickupId) {
+//    @GetMapping("/{pickupId}/reviewList")
+//    public BaseResponse<List<PickupReviewListRes>> getPickupReviews(@PathVariable Long pickupId) {
+//        try {
+//            List<PickupReviewListRes> result = pickupReviewService.getPickupReviews(pickupId);
+//            return new BaseResponse<>(result);
+//        } catch (BaseException e) {
+//            return new BaseResponse<>(e.getCode());
+//        }
+//    }
+
+    @GetMapping("/{storeId}/reviewList")
+    public BaseResponse<List<PickupReviewListRes>> getPickupReviewsByBookstore(@PathVariable Long storeId) {
         try {
-            List<PickupReviewListRes> result = pickupReviewService.getPickupReviews(pickupId);
+            List<PickupReviewListRes> result = pickupReviewService.getPickupReviewsByBookstore(storeId);
             return new BaseResponse<>(result);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getCode());
