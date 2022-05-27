@@ -30,6 +30,18 @@ public class PickupRepository {
         return em.find(Bookstore.class, id);
     }
 
+    public List<Pickup> findPickupByStoreId(Long storeId) throws Exception {
+        try {
+            return em.createQuery("select p from Pickup p where p.storeId=:storeId", Pickup.class)
+                    .setParameter("storeId", storeId)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error("여기야 " +e.getMessage());
+            throw new Exception(e);
+        }
+
+    }
+
     public List<Pickup> findByUserId(Long userId) {
         try {
             return em.createQuery("select p from Pickup p where p.userId=:userId", Pickup.class)

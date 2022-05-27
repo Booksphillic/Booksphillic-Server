@@ -12,5 +12,5 @@ public interface PickupReviewImageJpaRepository extends JpaRepository<PickupRevi
 
     Optional<PickupReviewImage> findById(Long id);
 
-    List<PickupReviewImage> findByPickupReview(PickupReview pickupReview);
+//    List<PickupReviewImage> findByPickupReview(PickupReview pickupReview);
 }
