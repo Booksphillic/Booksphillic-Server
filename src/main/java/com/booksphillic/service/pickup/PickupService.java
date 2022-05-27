@@ -9,6 +9,7 @@ import com.booksphillic.repository.UserRepository;
 import com.booksphillic.repository.bookstore.BookstoreRepository;
 import com.booksphillic.repository.pickup.PickupJpaRepository;
 import com.booksphillic.repository.pickup.PickupRepository;
+import com.booksphillic.repository.pickup.PickupReviewJpaRepository;
 import com.booksphillic.response.BaseException;
 import com.booksphillic.response.BaseResponseCode;
 import com.booksphillic.service.pickup.dto.ApplyPickupRes;
@@ -32,6 +33,7 @@ public class PickupService {
     private final UserRepository userRepository;
     private final PickupJpaRepository pickupJpaRepository;
     private final BookstoreRepository bookstoreRepository;
+    private final PickupReviewJpaRepository pickupReviewJpaRepository;
 
     @Transactional
     public ApplyPickupRes postPickup(Long userId, Long storeId, String bookGenre, LocalDateTime pickupDate, PickupStatus status, String requirements) throws BaseException {
@@ -82,6 +84,10 @@ public class PickupService {
             List<Pickup> pickupList = pickupRepository.findByUserId(userId);
             for(Pickup pickup : pickupList) {
                 Bookstore store = bookstoreRepository.findById(pickup.getStoreId());
+                boolean reviewFlag;
+                if(pickupReviewJpaRepository.findByPickup(pickup).isPresent())
+                    reviewFlag = true;
+                else reviewFlag = false;
                 result.add(PickupListRes.builder()
                         .pickupId(pickup.getId())
                         .storeId(pickup.getStoreId())
@@ -89,6 +95,7 @@ public class PickupService {
                         .createdAt(pickup.getCreatedAt())
                         .bookGenre(pickup.getBookGenre())
                         .pickupStatus(pickup.getPickupStatus())
+                        .review(reviewFlag)
                         .build()
                 );
             }
