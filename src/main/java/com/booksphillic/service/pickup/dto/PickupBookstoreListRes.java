@@ -2,9 +2,13 @@ package com.booksphillic.service.pickup.dto;
 
 import com.booksphillic.domain.bookstore.Bookstore;
 import com.booksphillic.domain.bookstore.OperatingHours;
+import com.booksphillic.domain.bookstore.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -20,8 +24,9 @@ public class PickupBookstoreListRes {
     private String contact;
     private String website;
     private OperatingHours hours;
+    private List<String> tags;
 
-    public PickupBookstoreListRes(Bookstore bookstore) {
+    public PickupBookstoreListRes(Bookstore bookstore, List<Tag> tags) {
         storeId = bookstore.getId();
         name = bookstore.getName();
         profileImgUrl = bookstore.getProfileImgUrl();
@@ -31,6 +36,7 @@ public class PickupBookstoreListRes {
         contact = bookstore.getContact();
         website = bookstore.getWebsite();
         hours = bookstore.getHours();
+        this.tags = tags.stream().map(t -> t.getName()).collect(Collectors.toList());
     }
 
 }
